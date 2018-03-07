@@ -1,0 +1,6 @@
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 .
+drwxr-xr-x  26 ftp      ftp          4096 May  6  2016 ..
+-rw-r--r--   1 ftp      ftp          7867 Dec 30  2015 banner_form.tpl
+-rw-r--r--   1 ftp      ftp          4311 Dec 30  2015 banner_list.tpl
+-rw-r--r--   1 ftp      ftp         11551 Dec 30  2015 layout_form.tpl
+-rw-r--r--   1 ftp      ftp          3859 Dec 30  2015 layout_list.tpl

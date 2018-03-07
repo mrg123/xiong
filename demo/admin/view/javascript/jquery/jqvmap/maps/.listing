@@ -1,0 +1,11 @@
+drwxr-xr-x   3 ftp      ftp          4096 May  6  2016 .
+drwxr-xr-x   4 ftp      ftp          4096 May  6  2016 ..
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 continents
+-rw-r--r--   1 ftp      ftp         93008 Dec 30  2015 jquery.vmap.algeria.js
+-rw-r--r--   1 ftp      ftp       2015618 Dec 30  2015 jquery.vmap.brazil.js
+-rw-r--r--   1 ftp      ftp         97653 Dec 30  2015 jquery.vmap.europe.js
+-rw-r--r--   1 ftp      ftp        144136 Dec 30  2015 jquery.vmap.france.js
+-rw-r--r--   1 ftp      ftp         55443 Dec 30  2015 jquery.vmap.germany.js
+-rw-r--r--   1 ftp      ftp        157651 Dec 30  2015 jquery.vmap.russia.js
+-rw-r--r--   1 ftp      ftp         47620 Dec 30  2015 jquery.vmap.usa.js
+-rw-r--r--   1 ftp      ftp         60600 Dec 30  2015 jquery.vmap.world.js

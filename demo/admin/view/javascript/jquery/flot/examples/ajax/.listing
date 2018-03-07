@@ -1,0 +1,11 @@
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 .
+drwxr-xr-x  30 ftp      ftp          4096 May  6  2016 ..
+-rw-r--r--   1 ftp      ftp            73 Dec 30  2015 data-eu-gdp-growth-1.json
+-rw-r--r--   1 ftp      ftp            99 Dec 30  2015 data-eu-gdp-growth-2.json
+-rw-r--r--   1 ftp      ftp           125 Dec 30  2015 data-eu-gdp-growth-3.json
+-rw-r--r--   1 ftp      ftp           151 Dec 30  2015 data-eu-gdp-growth-4.json
+-rw-r--r--   1 ftp      ftp           177 Dec 30  2015 data-eu-gdp-growth-5.json
+-rw-r--r--   1 ftp      ftp           177 Dec 30  2015 data-eu-gdp-growth.json
+-rw-r--r--   1 ftp      ftp           171 Dec 30  2015 data-japan-gdp-growth.json
+-rw-r--r--   1 ftp      ftp           167 Dec 30  2015 data-usa-gdp-growth.json
+-rw-r--r--   1 ftp      ftp          4333 Dec 30  2015 index.html

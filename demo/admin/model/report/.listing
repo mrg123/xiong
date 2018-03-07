@@ -1,0 +1,10 @@
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 .
+drwxr-xr-x  17 ftp      ftp          4096 May  6  2016 ..
+-rw-r--r--   1 ftp      ftp           462 Dec 30  2015 activity.php
+-rw-r--r--   1 ftp      ftp          5959 Dec 30  2015 affiliate.php
+-rw-r--r--   1 ftp      ftp          1677 Dec 30  2015 coupon.php
+-rw-r--r--   1 ftp      ftp         12868 Dec 30  2015 customer.php
+-rw-r--r--   1 ftp      ftp          1989 Dec 30  2015 marketing.php
+-rw-r--r--   1 ftp      ftp          3052 Dec 30  2015 product.php
+-rw-r--r--   1 ftp      ftp          2865 Dec 30  2015 return.php
+-rw-r--r--   1 ftp      ftp         13737 Dec 30  2015 sale.php

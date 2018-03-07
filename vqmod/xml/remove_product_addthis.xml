@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>remove product addThis</id>
+    <version>1</version>
+    <vqmver>2.4.1</vqmver>
+    <author>wang</author>
+
+    <file name="catalog/view/theme/default/template/product/product.tpl">
+		<operation info="remove product addthis">
+			<search position="replace"><![CDATA[<div class="addthis_toolbox addthis_default_style"><a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>]]></search>
+			<add><![CDATA[]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-515eeaf54693130e"></script>]]></search>
+			<add><![CDATA[]]></add>
+		</operation>
+		
+		<operation info="change product quantity css">
+			<search position="replace"><![CDATA[<?php echo $entry_qty; ?>]]></search>
+			<add trim="true"><![CDATA[<b><?php echo $entry_qty; ?></b>]]></add>
+		</operation>
+		
+		<operation>
+			<search position="replace"><![CDATA[<input type="text" name="quantity" value="<?php echo $minimum; ?>" size="2" id="input-quantity" class="thumb form-control" />]]></search>
+			<add trim="true"><![CDATA[
+<style type="text/css">
+
+
+.numadd , .numless{width:23px;height:22px;display:inline-block;color:#666;cursor:pointer;background-image:url(catalog/view/theme/default/image/add_less.png);background-color:#f2f2f0;}
+.numadd{background-position:0px -22px;    margin-bottom: 20px;}
+.numless{background-position:0px 0px;}
+.numqty{width:40px;height:22px;display:inline-block;position: relative;height:22px;line-height:22px;}
+#input-quantity{color:#666;text-align:center;border:0px solid #f2f2f0;padding:0;position: absolute;top:8px;}
+</style>
+&nbsp;&nbsp;
+			<span class="numless">&nbsp;</span>
+				<span class="numqty">
+				<input type="text" name="quantity" value="<?php echo $minimum; ?>" size="2" id="input-quantity"/>
+				</span>
+			<span class="numadd">&nbsp;</span>
+<script> 	
+$('.numadd').on('click',function(){
+var oldValue = $('input[name=\'quantity\']').val();
+oldValue++;
+$('input[name=\'quantity\']').val(oldValue);
+});
+$('.numless').on('click',function(){
+var oldValue = $('input[name=\'quantity\']').val();
+oldValue--;
+if(oldValue<=1){
+oldValue = 1;
+}
+$('input[name=\'quantity\']').val(oldValue);
+});
+//--></script> 
+			]]></add>
+		</operation>
+		
+    </file>
+	
+	<file name="catalog/view/theme/default/template/information/contact.tpl">
+		<operation info="remove location">
+			<search position="replace" index="1"><![CDATA[<h3>]]></search>
+			<add trim="true"><![CDATA[<h3 class="hidden">]]></add>
+		</operation>
+		<operation info="remove location">
+			<search position="replace" index="1"><![CDATA[<legend><?php echo $text_contact; ?></legend>]]></search>
+			<add trim="true"><![CDATA[<legend></legend>]]></add>
+		</operation>
+		<operation>
+			<search position="replace" index="1"><![CDATA[<div class="panel panel-default">]]></search>
+			<add trim="true"><![CDATA[<div class="panel panel-default hidden">]]></add>
+		</operation>
+		
+	</file>
+	
+	<file name="catalog/view/theme/default/template/common/footer.tpl">
+		<operation error="skip" info="remove footer banner in mobile">
+			<search position="replace" index="1"><![CDATA[<div class="col-sm-2">]]></search>
+			<add trim="true"><![CDATA[<div class="col-md-3 col-xs-6">]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace" index="1"><![CDATA[<div class="col-sm-2">]]></search>
+			<add trim="true"><![CDATA[<div class="col-md-3 col-xs-6">]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace" index="1"><![CDATA[<div class="col-sm-2">]]></search>
+			<add trim="true"><![CDATA[<div class="col-md-3 hidden-xs hidden-sm">]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace" index="1"><![CDATA[<div class="col-sm-2">]]></search>
+			<add trim="true"><![CDATA[<div class="col-sm-12 col-md-3 col-xs-12">]]></add>
+		</operation>
+		
+		<operation error="skip">
+			<search position="replace" index="1"><![CDATA[<div class="col-sm-4">]]></search>
+			<add trim="true"><![CDATA[<div class="hidden">]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace" index="2"><![CDATA[<div class="col-sm-6">]]></search>
+			<add trim="true"><![CDATA[<div class="col-md-6 hidden-xs hidden-sm">]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace" index="1"><![CDATA[<div class="col-sm-4">]]></search>
+			<add trim="true"><![CDATA[<div class="col-md-4 hidden-xs hidden-sm">]]></add>
+		</operation>
+		
+		<operation error="skip">
+			<search position="replace" index="1"><![CDATA[<?php echo $powered; ?>]]></search>
+			<add trim="true"><![CDATA[<center><?php echo $powered; ?></center>]]></add>
+		</operation>
+	</file>
+	
+
+</modification>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>order ad</id>
+    <version>1</version>
+    <vqmver>2.4.1</vqmver>
+    <author>wang</author>
+
+    <file name="catalog/controller/product/product.php">
+		<operation>
+			<search position="after"><![CDATA[$data['discounts'][] = array(]]></search>
+			<add><![CDATA['price_saved'    => $this->currency->format($this->tax->calculate($product_info['price']-$discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),]]></add>
+		</operation>
+    </file>
+	
+	
+
+</modification>

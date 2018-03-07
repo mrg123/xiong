@@ -1,0 +1,8 @@
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 .
+drwxr-xr-x  19 ftp      ftp          4096 May  6  2016 ..
+-rw-r--r--   1 ftp      ftp         15694 Dec 30  2015 category.php
+-rw-r--r--   1 ftp      ftp          7925 Dec 30  2015 compare.php
+-rw-r--r--   1 ftp      ftp         16169 Dec 30  2015 manufacturer.php
+-rw-r--r--   1 ftp      ftp         26353 Dec 30  2015 product.php
+-rw-r--r--   1 ftp      ftp         16037 Dec 30  2015 search.php
+-rw-r--r--   1 ftp      ftp          9956 Dec 30  2015 special.php

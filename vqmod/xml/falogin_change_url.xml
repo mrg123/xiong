@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>falogin </id>
+    <version>1</version>
+    <vqmver>2.4.1</vqmver>
+    <author>wang</author>
+
+    <file name="vendor\equotix\fblogin\equotix.php">
+		<operation>
+			<search position="replace"><![CDATA[$domain = parse_url(HTTP_SERVER);]]></search>
+			<add><![CDATA[$domain = parse_url("http://www.unice365.com/");]]></add>
+		</operation>
+
+    </file>
+	
+
+</modification>

@@ -1,0 +1,10 @@
+drwxr-xr-x   6 ftp      ftp          4096 May  6  2016 .
+drwxrwxrwx   7 ftp      ftp          4096 Oct 23 03:20 ..
+-rw-r--r--   1 ftp      ftp         10617 Dec 30  2015 cli_install.php
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 controller
+-rw-r--r--   1 ftp      ftp          2312 Dec 30  2015 index.php
+drwxr-xr-x   3 ftp      ftp          4096 May  6  2016 language
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 model
+-rw-r--r--   1 ftp      ftp        322890 Dec 30  2015 opencart.sql
+-rw-r--r--   1 ftp      ftp           299 Dec 30  2015 php.ini
+drwxr-xr-x   6 ftp      ftp          4096 May  6  2016 view

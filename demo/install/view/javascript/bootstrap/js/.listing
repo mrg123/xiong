@@ -1,0 +1,4 @@
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 .
+drwxr-xr-x   4 ftp      ftp          4096 May  6  2016 ..
+-rw-r--r--   1 ftp      ftp         58411 Dec 30  2015 bootstrap.js
+-rw-r--r--   1 ftp      ftp         27832 Dec 30  2015 bootstrap.min.js

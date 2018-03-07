@@ -1,0 +1,16 @@
+<modification>
+	<id>VQMOD Display Time in Orders</id>
+	<version>v2.x</version>
+	<vqmver>v2.4.x</vqmver>
+	<author>FennecDevs</author>
+	
+	<file name="admin/controller/sale/order.php">
+		<operation>
+			<search position="replace"><![CDATA['date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added'])),]]></search>
+			<add><![CDATA[
+				'date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added'])).' '.date($this->language->get('time_format'), strtotime($result['date_added'])),				
+			]]></add>
+		</operation>
+	</file>
+	
+</modification>	

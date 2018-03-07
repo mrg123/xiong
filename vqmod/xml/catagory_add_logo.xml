@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>catagory_add_logo</id>
+    <version>1</version>
+    <vqmver>2.4.1</vqmver>
+    <author>wang</author>
+
+    <file name="catalog/controller/module/category.php">
+        <operation>
+            <search position="after"><![CDATA[$this->load->model('catalog/product');]]></search>
+            <add><![CDATA[$this->load->model('tool/image');]]></add>
+        </operation>
+		<operation>
+            <search position="before"><![CDATA[$children_data[] = array(]]></search>
+            <add trim="true"><![CDATA[
+			if ($child['image']) {
+						$thumb = $this->model_tool_image->resize($child['image'], $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+					} else {
+						$thumb = '';
+					}
+			]]></add>
+        </operation>
+		<operation>
+            <search position="after"><![CDATA[$children_data[] = array(]]></search>
+            <add trim="true"><![CDATA[
+			'thumb' => $thumb, 
+			'grandchildren' => $grandchildren_data, 
+			]]></add>
+        </operation>
+		<operation>
+            <search position="after"><![CDATA[foreach($children as $child) {]]></search>
+            <add trim="true"><![CDATA[
+				$grandchildren_data = array();
+				
+				if ($child['category_id'] == $data['child_id']) {
+					$grandchildren = $this->model_catalog_category->getCategories($child['category_id']);
+					
+					foreach($grandchildren as $grandchild){
+						$filter_data = array('filter_category_id' => $grandchild['category_id'], 'filter_sub_category' => true);
+						if ($grandchild['image']) {
+							$thumb = $this->model_tool_image->resize($grandchild['image'], $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+						} else {
+							$thumb = '';
+						} 
+						$grandchildren_data[] = array(
+						'category_id' => $grandchild['category_id'],
+						'thumb' => $thumb,
+						'name' => $grandchild['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+						'href' => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'] . '_' . $grandchild['category_id'])
+						);
+					}
+				}
+					
+			]]></add>
+        </operation>
+    </file>
+	
+	<file name="catalog/view/theme/default/template/module/category.tpl">
+        <operation>
+            <search position="replace"><![CDATA[<a href="<?php echo $child['href']; ?>" class="list-group-item active">&nbsp;&nbsp;&nbsp;- <?php echo $child['name']; ?></a>]]></search>
+            <add trim="true"><![CDATA[
+	<?php if ($child['thumb']) { // add ?>
+        <a href="<?php echo $child['href']; ?>" class="list-group-item active">&nbsp;&nbsp;&nbsp;- <img src="<?php echo $child['thumb']; ?>" alt="<?php echo $child['name']; ?>" title="<?php echo $child['name']; ?>" /></a>
+    <?php }else{ ?>
+	<a href="<?php echo $child['href']; ?>" class="list-group-item active">&nbsp;&nbsp;&nbsp;- <?php echo $child['name']; ?></a>
+    <?php } ?>
+		<?php if($child['grandchildren']){ ?>
+			<?php foreach ($child['grandchildren'] as $grandchild) { ?>
+			<?php if ($grandchild['thumb']) { // add ?>
+				<a href="<?php echo $grandchild['href']; ?>" class="list-group-item active">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <img src="<?php echo $grandchild['thumb']; ?>" alt="<?php echo $grandchild['name']; ?>" title="<?php echo $grandchild['name']; ?>" /></a>
+			<?php }else{ ?>
+				<a href="<?php echo $grandchild['href']; ?>" class="list-group-item active">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <?php echo $grandchild['name']; ?></a>
+			<?php } ?>
+			<?php } ?>
+		<?php } ?>
+			]]></add>
+        </operation>
+		<operation>
+            <search position="replace"><![CDATA[<a href="<?php echo $child['href']; ?>" class="list-group-item">&nbsp;&nbsp;&nbsp;- <?php echo $child['name']; ?></a>]]></search>
+            <add trim="true"><![CDATA[
+	<?php if ($child['thumb']) { // add ?>
+        <a href="<?php echo $child['href']; ?>" class="list-group-item">&nbsp;&nbsp;&nbsp;- <img src="<?php echo $child['thumb']; ?>" alt="<?php echo $child['name']; ?>" title="<?php echo $child['name']; ?>" /></a>
+    <?php }else{ ?>
+	<a href="<?php echo $child['href']; ?>" class="list-group-item">&nbsp;&nbsp;&nbsp;- <?php echo $child['name']; ?></a>
+    <?php } ?>
+			]]></add>
+        </operation>
+
+    </file>
+	
+	<file name="catalog/controller/common/header.php">
+		<operation>
+			<search position="after"><![CDATA[$this->load->model('catalog/product');]]></search>
+			<add trim="true"><![CDATA[$this->load->model('tool/image');]]></add>
+		</operation>
+		<operation>
+            <search position="before"><![CDATA[$children_data[] = array(]]></search>
+            <add><![CDATA[
+if ($child['image']) {
+						$thumb = $this->model_tool_image->resize($child['image'], $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+					} else {
+						$thumb = '';
+					} 
+			]]></add>
+        </operation>
+		<operation>
+            <search position="after"><![CDATA[$children_data[] = array(]]></search>
+            <add><![CDATA['thumb' => $thumb,]]></add>
+        </operation>
+		
+	</file>
+	
+	<file name="catalog/view/theme/default/template/common/header.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<li><a href="<?php echo $child['href']; ?>"><?php echo $child['name']; ?></a></li>]]></search>
+			<add trim="true"><![CDATA[
+				<?php if($child['thumb']) { ?>
+			<li><a href="<?php echo $child['href']; ?>"><img src="<?php echo $child['thumb']; ?>" alt="<?php echo $child['name']; ?>" title="<?php echo $child['name']; ?>" /></a></li>
+				<?php }else{ ?>
+			<li><a href="<?php echo $child['href']; ?>"><?php echo $child['name']; ?></a></li>	
+				<?php } ?>
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/view/theme/default/template/product/category.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<?php if (count($categories) <= 5) { ?>]]></search>
+			<add trim="true"><![CDATA[<?php if (count($categories) <= 1) { ?>]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[<li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>]]></search>
+			<add trim="true"><![CDATA[
+			<?php if($category['thumb']) { ?>
+			<li><a href="<?php echo $category['href']; ?>"><img src="<?php echo $category['thumb']; ?>" alt="<?php echo $category['name']; ?>" title="<?php echo $category['name']; ?>" /></a></li>
+				<?php }else{ ?>
+			<li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>	
+				<?php } ?>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace" index="2"><![CDATA[<ul>]]></search>
+			<add trim="true"><![CDATA[<ul style="list-style-type:none;padding:0;margin:0;">]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/category.php">
+		<operation>
+			<search position="before"><![CDATA[$data['categories'][] = array(]]></search>
+			<add trim="true"><![CDATA[
+			if ($result['image']) {
+						$thumb = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+					} else {
+						$thumb = '';
+					} 
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[$data['categories'][] = array(]]></search>
+			<add trim="true"><![CDATA['thumb' => $thumb,]]></add>
+		</operation>
+	</file>
+</modification>

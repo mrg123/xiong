@@ -1,0 +1,233 @@
+html{
+			font-size: 62.5%;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		body{ background-color: #f6f6f6; }
+		.cf:before,
+		.cf:after {
+		    content:"";
+		    display:table;
+		}
+
+		.cf:after {
+		    clear:both;
+		}
+
+		/* For IE 6/7 (trigger hasLayout) */
+		.cf {
+		    zoom:1;
+		    clear:both;	
+		}
+		#warp{
+ 			width: 46%;
+			background-color: #fff;
+			box-shadow: 3px 3px 4px #ddd,-3px -3px 4px #ddd;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -23%;
+			margin-top: -20%;
+		}
+		.logo{
+			float: left;
+		}
+		.language{
+			float: right;
+			padding-right: 1.2rem;
+			padding-top: 1.5rem;
+			font-size: 1.2rem;
+			line-height: 2.8rem;
+		}
+		.language{
+
+		}
+		.language img{
+			padding-left:1rem;
+			display: block;
+			float: right;
+			padding-top: 0.4rem;
+		}
+
+		/*header end*/
+		
+
+		/*main*/
+		.main{
+			padding-bottom: 1.2rem; 
+		}
+		.main-top{
+			background-color: #F0F0F0;
+		}
+		.main-top h3{
+			font-size: 1.8rem;
+			color: #333333;
+			line-height: 5.4rem;
+ 			padding-left: 1.2rem;
+			float: left;
+		}
+		.main-num p{
+			float: left;
+			font-size: 1.4rem;
+			color: #9999bb;
+			line-height: 4.8rem;
+			padding-left: 1.5rem;
+		}
+		.main-num span{
+			font-size: 1.6rem;
+			color: #ff9900;
+			padding-left: .5rem
+		}
+		.main-num{
+			border: 1px solid #eee;
+			width: 96%;
+			margin: 1.2rem;
+  		}
+  		.main-form{
+  			width: 80%;
+  			margin: 0 auto;
+  		}
+  		.main-form p{
+ 			 
+   		}
+  		.main-form img{
+			padding-right: 1rem;
+   		}
+  		.main-form li{
+  			list-style: none;
+  			text-align: center;
+  			clear: both;
+  		}
+  		.main-form label{
+  			font-size: 1.4rem;
+			color: #333;
+			line-height: 2.8rem;
+			text-align: right;
+  		}
+  		.main-form input{
+  			 
+  			font-size: 1.4rem;
+  			line-height: 2.4rem
+  		}
+  		.main-form span{
+  			font-size: 1.6rem;
+  			color: red;
+  			line-height: 2.8rem;
+  		}
+  		.main-form select{
+  			width: 35%;
+  			font-size: 1.4rem;
+  			height: 2.8rem;
+  			padding-left: 1rem;
+  		}
+  		.main-form select option{
+  			padding-left: 1.4rem;
+  		}
+  		#cvc{
+  			width: 22%;
+			text-align: center;
+			line-height: 2.4rem;
+  		}
+  		.last-li{
+  			position: relative;
+    	}
+  		.last-pic{
+  			position: absolute;
+  			padding-left: 1rem;
+    	}
+
+   		#Submit{
+   			width: 32%;
+			margin-top: 1rem;
+			height: 3rem;
+    	}
+
+   		/*main  end*/
+
+   		/*footer*/
+   		.footer{
+   			border-top: 1px solid #eee;
+   		}
+   		.footer ul{
+   			width: 100%;
+   			padding-left: 1.5rem;
+   		}
+		.footer ul li{
+			list-style: none;
+			float: left;
+			margin: 1.5rem;
+ 		}
+   		.footer img{
+   			max-width: 100%;
+   			height: auto;
+   		}
+   		.pic-border{
+   			border: 1px solid #000;
+   			width: 60px;
+   			height: 37px;
+   		}
+   		em{
+			margin-top: 1rem;
+			display: inline-block;
+			font-size: 1.4rem;
+			color: #A1A1A1;
+   		}
+   		.left{
+   			width: 31.5%;
+   			float: left;
+   			text-align: right;
+   			padding-right: 1rem;
+   			margin:.8rem 0;
+    	}
+   		.right{
+   			width: 50%;
+   			float: left;
+   			text-align: left;
+   			margin:.8rem 0;
+   		}
+   		 
+    	.jcbPic{
+			width: 60px;
+			height: 37px;
+   		}
+   		#lblCardType{
+   			line-height: 3.9rem;
+   		}
+   		#card{
+   			width: 71%;
+    		padding-left: .5rem;
+   		}
+   		@media screen and (max-width: 960px){
+   			#warp{
+   				width: 100%;
+   				top: 0;
+   				left: 0;
+   				margin:0;
+    		}
+    		.main-form{
+    			width: 100%;
+    		}
+    		.footer ul li{
+    			width: 15%;
+    			margin: 1rem;
+    		}
+    		.left{
+    			width: 31%;
+    		}
+    		.right{
+    			width: 64%;
+    		}
+    		.main-form img {
+			    padding-right: 0.2rem;
+			}
+			.main-top h3{
+				font-size: 1.2rem;
+			}
+			.main-num{
+				margin:0;
+				width: 100%;
+			}
+			#card{
+				width: 93%;
+				padding: 0;
+			}
+   		}

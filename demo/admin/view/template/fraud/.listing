@@ -1,0 +1,8 @@
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 .
+drwxr-xr-x  26 ftp      ftp          4096 May  6  2016 ..
+-rw-r--r--   1 ftp      ftp          6195 Dec 30  2015 fraudlabspro_info.tpl
+-rw-r--r--   1 ftp      ftp          7231 Dec 30  2015 fraudlabspro.tpl
+-rw-r--r--   1 ftp      ftp          1450 Dec 30  2015 ip_ip.tpl
+-rw-r--r--   1 ftp      ftp          7193 Dec 30  2015 ip.tpl
+-rw-r--r--   1 ftp      ftp          7691 Dec 30  2015 maxmind_info.tpl
+-rw-r--r--   1 ftp      ftp          4272 Dec 30  2015 maxmind.tpl

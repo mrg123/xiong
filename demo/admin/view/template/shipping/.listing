@@ -1,0 +1,14 @@
+drwxr-xr-x   2 ftp      ftp          4096 May  6  2016 .
+drwxr-xr-x  26 ftp      ftp          4096 May  6  2016 ..
+-rw-r--r--   1 ftp      ftp          8357 Dec 30  2015 auspost.tpl
+-rw-r--r--   1 ftp      ftp          4894 Dec 30  2015 citylink.tpl
+-rw-r--r--   1 ftp      ftp         20253 Dec 30  2015 fedex.tpl
+-rw-r--r--   1 ftp      ftp          4778 Dec 30  2015 flat.tpl
+-rw-r--r--   1 ftp      ftp          3963 Dec 30  2015 free.tpl
+-rw-r--r--   1 ftp      ftp          4779 Dec 30  2015 item.tpl
+-rw-r--r--   1 ftp      ftp          9144 Dec 30  2015 parcelforce_48.tpl
+-rw-r--r--   1 ftp      ftp          3528 Dec 30  2015 pickup.tpl
+-rw-r--r--   1 ftp      ftp         38390 Dec 30  2015 royal_mail.tpl
+-rw-r--r--   1 ftp      ftp         47004 Dec 30  2015 ups.tpl
+-rw-r--r--   1 ftp      ftp         34224 Dec 30  2015 usps.tpl
+-rw-r--r--   1 ftp      ftp          6422 Dec 30  2015 weight.tpl

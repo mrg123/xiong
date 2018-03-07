@@ -1,0 +1,14 @@
+drwxrwxrwx   7 ftp      ftp          4096 Oct 23 03:20 .
+drwxrwxrwx  12 ftp      ftp          4096 Nov  1 03:55 ..
+drwxr-xr-x   6 ftp      ftp          4096 May  6  2016 admin
+drwxr-xr-x   6 ftp      ftp          4096 May  6  2016 catalog
+-rw-r--r--   1 ftp      ftp             0 Dec 30  2015 config-dist.php
+-rw-r--r--   1 ftp      ftp           197 Dec 30  2015 crossdomain.xml
+-rw-r--r--   1 ftp      ftp          2309 Jul 16 06:08 .htaccess
+-rw-r--r--   1 ftp      ftp          2309 Dec 30  2015 .htaccess.txt
+drwxrwxrwx   6 ftp      ftp          4096 May  6  2016 image
+-rw-r--r--   1 ftp      ftp          8163 Dec 30  2015 index.php
+drwxr-xr-x   6 ftp      ftp          4096 May  6  2016 install
+-rw-r--r--   1 ftp      ftp           435 Dec 30  2015 php.ini
+drwxr-xr-x   8 ftp      ftp          4096 May  6  2016 system
+-rw-r--r--   1 ftp      ftp      11792617 Aug  7 02:32 upload.zip
