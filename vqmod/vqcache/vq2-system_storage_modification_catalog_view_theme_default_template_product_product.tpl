@@ -365,6 +365,46 @@ $('input[name=\'quantity\']').val(oldValue);
 //--></script>
               <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
               <br />
+
+<?php if ($products){ ?>	
+	  
+<div class="block block-related">
+    <div class="block-title" style="color:#969696;font-weight:600;line-height:20px;text-transform:uppercase;font-size:12px;margin-bottom:5px;">
+	<?php echo $text_related; ?>
+	</div>
+	<?php foreach ($products as $product) { ?>	
+    <div class="block-content related-product-list" style="line-height:15px;align-items:center;display:flex;margin-bottom:10px;cursor:pointer;">
+                        
+                    <div class="related-product-image" style="display:block;width:50px;height:50px;line-height:100%;box-sizing:border-box;">
+                        <img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" width="50"/>
+                    </div>
+                    <div class="related-product-selected" style="padding:0 8px;line-height:100%;box-sizing:border-box;width:40px;">
+                        <label>
+							<input type="checkbox" value="<?php echo $product['product_id']; ?>" data-min="<?php echo $product['minimum']; ?>" name="related[]" style="width:18px;height:18px;" />
+						</label>
+                    </div>
+					<div class="related-product-name" style="text-transform:uppercase;font-size:13px;color:#1e1e1e;font-weight:600;">
+					add &nbsp; 
+					<?php echo $product['name']; ?>
+					
+					<?php if ($product['price']) { ?>
+                &nbsp; <span style="color:#1eaf4d">
+                <?php if (!$product['special']) { ?>
+                <?php echo $product['price']; ?>
+                <?php } else { ?>
+                <?php echo $product['special']; ?>
+                <?php } ?>
+                </span>
+              <?php } ?>
+					
+					</div>
+			
+    </div>
+	<?php } ?>	
+</div>
+
+<?php } ?>
+			
               <button type="button" id="button-cart" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary btn-lg btn-block"><?php echo $button_cart; ?></button>
             </div>
             <?php if ($minimum > 1) { ?>
@@ -392,7 +432,7 @@ $('input[name=\'quantity\']').val(oldValue);
           <?php } ?>
         </div>
       </div>
-      <?php if ($products) { ?>
+      <?php if (0) { ?> 
       <h3><?php echo $text_related; ?></h3>
       <div class="row">
         <?php $i = 0; ?>
@@ -531,7 +571,28 @@ $('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
 });
 //--></script>
 <script type="text/javascript"><!--
+
+	
+$(document).ready(function() {
+	$('.related-product-image, .related-product-name').click(function(){
+		if($(this).parent().find('input[type="checkbox"]').is(':checked') == true){
+			$(this).parent().find('input[type="checkbox"]').prop("checked",false);
+			
+		}else{
+			$(this).parent().find('input[type="checkbox"]').prop("checked",true);
+			
+		}
+	});
+});	
+			
 $('#button-cart').on('click', function() {
+
+			if($('input[name="related[]"]').length > 0){
+		$('input[name="related[]"]:checked').each(function(){
+			cart.add($(this).val(), $(this).data('min'));
+		});
+	}
+			
 	$.ajax({
 		url: 'index.php?route=checkout/cart/add',
 		type: 'post',
