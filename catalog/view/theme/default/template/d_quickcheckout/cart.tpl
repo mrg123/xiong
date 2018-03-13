@@ -1,13 +1,7 @@
-<!-- 
-	Ajax Quick Checkout 
-	v6.0.0
-	Dreamvention.com 
-	d_quickcheckout/cart.tpl 
--->
 <div id="cart_view" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
 <script type="text/html" id="cart_template">
 
-	<div class="panel panel-default <%= model.config.display ? '' : 'hidden' %>">
+	<div class="panel panel-default <%= parseInt(model.config.display) ? '' : 'hidden' %>">
 		<div class="panel-heading">
 			<h4 class="panel-title">
 				<span class="icon">
@@ -20,9 +14,15 @@
 		<div class="qc-checkout-product panel-body" >
 			<% if(model.config.description){ %><p class="text"><%= model.config.description %></p><% } %>
 			<% if(model.error){ %>
-				<div class="alert alert-danger">
-					<i class="fa fa-exclamation-circle"></i> <%= model.error %>
-				</div>
+				<% if(model.config_stock_warning){ %>
+					<div class="save-alert save-alert-danger">
+						<i class="fa fa-exclamation-circle"></i> <%= model.error %>
+					</div>
+				<% } else { %>
+					<div class="alert alert-danger">
+						<i class="fa fa-exclamation-circle"></i> <%= model.error %>
+					</div>
+				<% } %>
 			<% } %>
 
 			<table class="table table-bordered qc-cart">

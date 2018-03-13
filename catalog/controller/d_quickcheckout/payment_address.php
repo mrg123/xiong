@@ -114,8 +114,33 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
         //post
         if(isset($this->request->post['payment_address'])){
 
+            //fix &amp; 
+            foreach ($this->request->post['payment_address'] as $key => $value) {
+                if(is_array($this->request->post['payment_address'][$key])){
+                    foreach ($this->request->post['payment_address'][$key] as $custom_field_type => $custom_field_data) {
+                        foreach ($custom_field_data as $custom_field_id => $custom_field_value) {
+                            $this->request->post['payment_address'][$key][$custom_field_type][$custom_field_id] = htmlspecialchars_decode($custom_field_value);
+                        }
+                    }
+                } else {
+                    $this->request->post['payment_address'][$key] = htmlspecialchars_decode($value);
+                }
+            }
+
             if(isset($this->session->data['payment_address']['customer_group_id']) && isset($this->request->post['payment_address']['customer_group_id'])){
                 if($this->session->data['payment_address']['customer_group_id'] != $this->request->post['payment_address']['customer_group_id']){
+                    $json['payment_address_refresh'] = true;
+                    $json['shipping_address_refresh'] = true;
+                }
+            }
+            if(isset($this->session->data['payment_address']['country_id']) && isset($this->request->post['payment_address']['country_id'])){
+                if($this->session->data['payment_address']['country_id'] != $this->request->post['payment_address']['country_id']){
+                    $json['payment_address_refresh'] = true;
+                    $json['shipping_address_refresh'] = true;
+                }
+            }
+            if(isset($this->session->data['payment_address']['city_id']) && isset($this->request->post['payment_address']['city_id'])){
+                if($this->session->data['payment_address']['city_id'] != $this->request->post['payment_address']['city_id']){
                     $json['payment_address_refresh'] = true;
                     $json['shipping_address_refresh'] = true;
                 }
@@ -127,21 +152,22 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
 
             //if logged in and address_id set and is not empty - fetch address by address_id
             if($this->customer->isLogged()){
-                if($this->request->post['payment_address']['address_id'] !== 'new' 
+                if(!empty($this->request->post['payment_address']['address_id'])
+                    && $this->request->post['payment_address']['address_id'] !== 'new' 
                     && $this->request->post['payment_address']['address_id'] !== $this->session->data['payment_address']['address_id'] 
-                    && !empty($this->request->post['payment_address']['address_id'])){
+                    ){
                     
                     $this->request->post['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->request->post['payment_address']['address_id']);
                 }
             }
             if(isset($this->request->post['payment_address']['customer_group_id'])){
-        
+
                 $this->request->post['payment_address']['custom_field'] = ((!empty($this->request->post['payment_address']['custom_field']['account'])) ? array('account' => $this->request->post['payment_address']['custom_field']['account']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('account',$this->request->post['payment_address']['customer_group_id'])) + ((!empty($this->request->post['payment_address']['custom_field']['address'])) ? array('address' => $this->request->post['payment_address']['custom_field']['address']) : $this->model_d_quickcheckout_custom_field->setCustomFieldsDefaultSessionData('address', $this->request->post['payment_address']['customer_group_id']));
             }
                     
           //   print_r(  $this->session->data['payment_address'] );
             if((isset($this->request->post['payment_address']['custom_field']) && is_array($this->request->post['payment_address']['custom_field']))){
-  
+                
                 $this->request->post['payment_address'] = array_merge($this->request->post['payment_address'], $this->model_d_quickcheckout_custom_field->setCustomFieldValue($this->request->post['payment_address']['custom_field']));
             }
          
@@ -155,15 +181,21 @@ class ControllerDQuickcheckoutPaymentAddress extends Controller {
         //session
         if($this->customer->isLogged()){
             if(empty($this->session->data['payment_address']['address_id'])){
-                $this->session->data['payment_address']['address_id'] = $this->customer->getAddressId();
-                $this->session->data['payment_address'] = $this->model_d_quickcheckout_address->getAddress($this->session->data['payment_address']['address_id']);
+                if($this->model_account_address->getAddresses()){
+                    $this->session->data['payment_address']['address_id'] = $this->customer->getAddressId();
+                    $this->session->data['payment_address'] = current($this->model_d_quickcheckout_address->getAddresses());
+                }else{
+                    $this->session->data['payment_address']['country_id'] =  $this->config->get('config_country_id');
+                    $this->session->data['payment_address']['zone_id'] = $this->config->get('config_zone_id');
+                }
             }
 
             if(!isset($this->session->data['payment_address']['shipping_address'])){
                 $this->session->data['payment_address']['shipping_address'] = 0;
             }
-
-            if($this->session->data['payment_address']['address_id'] !== 'new'){
+            if(empty($this->session->data['payment_address']['address_id'])){
+                $this->session->data['payment_address']['address_id'] = 'new';
+            }else if($this->session->data['payment_address']['address_id'] !== 'new'){
                $this->session->data['payment_address']['shipping_address'] = 0; 
             }
 

@@ -280,14 +280,15 @@ class ModelDShopunityMbooth extends Model {
                         $result['error'][] = $file;
                     }
 
-                    $dir = dirname($this->base_dir . $file);
-                    while (strlen($dir) > strlen($this->base_dir)) {
+                    $dir = dirname($this->dir_root . $file);
+                    while (strlen($dir) > strlen($this->dir_root)) {
                         if (is_dir($dir)) {
                             if ($this->isDirEmpty($dir)) {
                                 if (@rmdir($dir)) {
                                     $result['success'][] = dirname($dir);
                                     $dir = dirname($dir);
                                 } else {
+                                    FB::log('not deleted');
                                     $result['error'][] = dirname($dir);
                                 }
                             } else {
@@ -399,7 +400,7 @@ class ModelDShopunityMbooth extends Model {
         try{
             $semver = new Semver;
             if(!empty($extension['version'])){
-                $satisfies = $semver->expression($version_expression)->satisfiedBy($semver->version($extension['version']));
+                $satisfies = $semver->satisfies($extension['version'], $version_expression);
             }
 
         }catch(Exception $e){
@@ -424,7 +425,7 @@ class ModelDShopunityMbooth extends Model {
                 try{
                     $semver = new Semver;
                     if(!empty($extension['version'])){
-                        $satisfies = $semver->expression($require['version'])->satisfiedBy($semver->version($extension['version']));
+                        $satisfies = $semver->satisfies($extension['version'], $require['version']);
                     }
 
                 }catch(Exception $e){

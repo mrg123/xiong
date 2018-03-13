@@ -16,6 +16,7 @@ class ControllerModuleDShopunity extends Controller {
 		parent::__construct($registry);
 		$this->load->model('d_shopunity/mbooth');
 		$this->load->model('d_shopunity/account');
+		
 		//$this->load->model('d_shopunity/config');
 
 		//extension.json
@@ -25,7 +26,7 @@ class ControllerModuleDShopunity extends Controller {
 		if (isset($this->request->get['store_id'])) { 
 			$this->store_id = $this->request->get['store_id']; 
 		}
-
+		
 		//Config File (example: d_shopunity)
 		//$this->config_file = $this->model_d_shopunity_config->getConfigFile($this->codename);
 
@@ -34,11 +35,14 @@ class ControllerModuleDShopunity extends Controller {
 
 	}
 
+
+
 	public function index(){
 
 		if(!$this->model_d_shopunity_account->isLogged()){
-			$this->install230();
-			$this->uninstall230();
+			if($this->install230()){
+				return true;
+			}
 			$this->response->redirect($this->url->link('d_shopunity/account/login', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 
@@ -57,7 +61,8 @@ class ControllerModuleDShopunity extends Controller {
 		$this->document->addScript('view/javascript/d_shopunity/library/syntaxhighlight/syntaxhighlight.js');
 
 		$this->document->addStyle('view/stylesheet/shopunity/bootstrap.css');
-		$this->document->addStyle('view/stylesheet/d_shopunity/d_shopunity.css');
+        $this->document->addStyle('view/stylesheet/d_shopunity/d_shopunity.css');
+		$this->document->addStyle('view/stylesheet/d_shopunity/d_shopunity_layout.css');
 		$this->document->addScript('view/javascript/d_shopunity/d_shopunity.js');
 
 		// Breadcrumbs
@@ -161,20 +166,9 @@ class ControllerModuleDShopunity extends Controller {
 
 	public function install230(){
 		$this->load->model('d_shopunity/ocmod');
-		$compatibility = $this->model_d_shopunity_ocmod->getModificationByName('d_shopnity') || $this->model_d_shopunity_ocmod->getModificationByName('Shopunity');
+		$compatibility = $this->model_d_shopunity_ocmod->getModificationByName('d_shopunity') || $this->model_d_shopunity_ocmod->getModificationByName('Shopunity');
 		if(VERSION >= '2.3.0.0' && !$compatibility ){
 			$this->install();
-			return true;
-		}
-		return false;
-	}
-
-	public function uninstall230(){
-		$this->load->model('d_shopunity/ocmod');
-		$compatibility = $this->model_d_shopunity_ocmod->getModificationByName('d_shopnity') || $this->model_d_shopunity_ocmod->getModificationByName('Shopunity');
-		
-		if(VERSION >= '2.3.0.0' && $compatibility ){
-			$this->uninstall();
 			return true;
 		}
 		return false;

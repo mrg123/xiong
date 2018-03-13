@@ -21703,3 +21703,242 @@ FILE: catalog/model/catalog/category.php
 CODE: public function getCategories($parent_id = 0) {
 LINE: 52
 ----------------------------------------------------------------
+2018-03-14 0:34:53 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 39
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 20
+LINE: 59
+LINE: 80
+LINE: 99
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 25
+LINE: 31
+----------------------------------------------------------------
+MOD: <font color="#0000"><b>Category Click</font>
+FILE: catalog/view/theme/default/template/common/header.tpl
+CODE: <li class="dropdown"><a href="<?php echo $category['href']; ?>" class="dropdown-toggle" data-toggle="dropdown"><?php echo $category['name']; ?></a>
+LINE: 96
+----------------------------------------------------------------
+MOD: <font color="#0000"><b>Menu 100% theme Default</font>
+CODE: <div class="container">
+LINE: 87
+CODE: <nav id="menu" class="navbar">
+LINE: 93
+CODE: </nav>
+LINE: 70
+LINE: 128
+----------------------------------------------------------------
+MOD: Adiciona a url amigável automaticamente no cadastro ou edição
+FILE: admin/view/template/common/header.tpl
+CODE: </head>
+LINE: 34
+FILE: admin/controller/catalog/product.php
+CODE: protected function getForm() {
+LINE: 523
+FILE: admin/view/template/catalog/product_form.tpl
+CODE: //--></script>
+LINE: 1073
+FILE: admin/controller/catalog/category.php
+CODE: protected function getForm() {
+LINE: 283
+FILE: admin/view/template/catalog/category_form.tpl
+CODE: //--></script>
+LINE: 279
+FILE: admin/controller/catalog/information.php
+CODE: protected function getForm() {
+LINE: 262
+FILE: admin/view/template/catalog/information_form.tpl
+CODE: //--></script>
+LINE: 226
+FILE: admin/view/template/catalog/manufacturer_form.tpl
+CODE: //--></script>
+NOT FOUND!
+----------------------------------------------------------------
+MOD: Ajax Quick Checkout
+FILE: catalog/controller/checkout/checkout.php
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/checkout.tpl')) {
+LINE: 89
+CODE: $this->response->setOutput($this->load->view('checkout/checkout', $data));
+NOT FOUND!
+CODE: $data['header'] = $this->load->controller('common/header');
+LINE: 92
+FILE: system/library/tax.php
+CODE: final class Tax {
+LINE: 7
+----------------------------------------------------------------
+MOD: Auto Sub-category
+FILE: catalog/controller/product/category.php
+CODE: 'filter_category_id' => $category_id,
+LINE: 172
+----------------------------------------------------------------
+MOD: d_shopunity
+FILE: admin/controller/common/header.php
+CODE: public function index() {
+LINE: 7
+CODE: <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><span class="label label-danger pull-left"><?php echo $alerts; ?></span> <i class="fa fa-bell fa-lg"></i></a>
+LINE: 48
+CODE: <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><?php if($alerts > 0) { ?><span class="label label-danger pull-left"><?php echo $alerts; ?></span><?php } ?> <i class="fa fa-bell fa-lg"></i></a>
+NOT FOUND!
+FILE: admin/model/localisation/language.php
+CODE: $this->db->query("DELETE FROM " . DB_PREFIX . "banner_image_description WHERE language_id = '" . (int)$language_id . "'");
+LINE: 224
+----------------------------------------------------------------
+MOD: Export/Import Tool (V2.30) for OpenCart 2.x
+FILE: admin/controller/common/menu.php
+CODE: $data['text_backup'] = $this->language->get('text_backup');
+LINE: 13
+CODE: $data['backup'] = $this->url->link('tool/backup', 'token=' . $this->session->data['token'],
+LINE: 121
+FILE: admin/language/chinese/common/menu.php
+CODE: $_['text_backup']
+LINE: 12
+FILE: admin/language/english/common/menu.php
+CODE: $_['text_backup']
+LINE: 10
+FILE: admin/view/template/common/menu.tpl
+CODE: <li><a href="<?php echo $backup; ?>"><?php echo $text_backup; ?></a></li>
+LINE: 160
+----------------------------------------------------------------
+MOD: home-btn-on-default-top-menu-kupi-bg-com
+CODE: <ul class="nav navbar-nav">
+LINE: 102
+----------------------------------------------------------------
+MOD: Installation without FTP settings
+FILE: admin/controller/extension/installer.php
+CODE: $data['button_continue'] =
+LINE: 27
+CODE: function ftp(
+LINE: 296
+CODE: if (!$this->config->get('config_ftp_status')
+LINE: 315
+FILE: admin/language/english/extension/installer.php
+CODE: $_['text_clear']
+LINE: 17
+FILE: admin/view/template/extension/installer.tpl
+CODE: <form class="form
+LINE: 40
+CODE: timer = setInterval(
+LINE: 94
+CODE: n next()
+LINE: 164
+CODE: 'path=' + data.path
+LINE: 175
+----------------------------------------------------------------
+MOD: Not show description of product on category page
+CODE: 'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
+LINE: 219
+----------------------------------------------------------------
+MOD: product op alt img swap
+FILE: catalog/controller/product/product.php
+CODE: $data['images'][] = array(
+LINE: 301
+CODE: $product_option_value_data[] = array(
+LINE: 351
+CODE: $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
+LINE: 221
+FILE: catalog/view/theme/default/template/product/product.tpl
+CODE: <li class="image-additional"><a
+LINE: 30
+CODE: <?php foreach ($images as $image)
+LINE: 30
+CODE: class="thumbnail"
+LINE: 26
+CODE: src="<?php echo $thumb; ?>"
+LINE: 26
+CODE: <?php foreach ($option['product_option_value'] as $option_value)
+LINE: 177
+LINE: 193
+LINE: 231
+CODE: class="form-control"
+LINE: 77
+LINE: 83
+LINE: 173
+LINE: 248
+LINE: 254
+LINE: 268
+LINE: 278
+LINE: 288
+LINE: 300
+LINE: 311
+CODE: ><?php echo $option_value['name']; ?>
+LINE: 178
+CODE: <input type="radio" name="option[<?php echo $option['product_option_id']; ?>]"
+LINE: 196
+LINE: 234
+CODE: <?php echo $footer; ?>
+LINE: 639
+----------------------------------------------------------------
+MOD: Social and Payment Logos in Footer
+FILE: catalog/controller/common/footer.php
+CODE: $data['text_newsletter'] = $this->language->get('text_newsletter');
+LINE: 36
+CODE: $data['text_contact'] = $this->language->get('text_contact');
+LINE: 13
+FILE: catalog/language/english/common/footer.php
+CODE: $_['text_contact']
+LINE: 8
+CODE: $_['text_powered']      = 'Powered By <a href="http://www.opencart.com">OpenCart</a><br /> %s &copy; %s';
+LINE: 19
+FILE: catalog/view/theme/default/template/common/footer.tpl
+CODE: <div class="col-sm-3">
+LINE: 4
+LINE: 13
+LINE: 21
+LINE: 30
+CODE: <p><?php echo $powered; ?></p>
+LINE: 49
+CODE: <hr>
+LINE: 58
+CODE: <hr>
+LINE: 58
+FILE: admin/language/english/english.php
+CODE: $_['tab_server']
+LINE: 118
+FILE: admin/controller/setting/setting.php
+CODE: $data['tab_server'] = $this->language->get('tab_server');
+LINE: 249
+CODE: if (isset($this->request->post['config_fax'])) {
+LINE: 573
+FILE: admin/view/template/setting/setting.tpl
+CODE: <li><a href="#tab-server" data-toggle="tab"><?php echo $tab_server; ?></a></li>
+LINE: 43
+FILE: admin/language/english/setting/setting.php
+CODE: $_['entry_fax']                        = 'Fax';
+LINE: 50
+CODE: <div class="tab-pane" id="tab-server">
+LINE: 1432
+----------------------------------------------------------------
+MOD: viethemes - Advanced Menu
+CODE: </head>
+LINE: 112
+CODE: <div class="dropdown-menu">
+LINE: 191
+CODE: <a href="<?php echo $category['href']; ?>" class="see-all"><?php echo $text_all; ?> <?php echo $category['name']; ?></a> </div>
+LINE: 201
+CODE: <a href="<?php echo $category['href']; ?>" class="dropdown-toggle" data-toggle="dropdown"><?php echo $category['name']; ?></a>
+NOT FOUND!
+----------------------------------------------------------------
+MOD: Wholesale form For Enquiry - Customize Yours
+FILE: catalog/language/english/english.php
+CODE: $_['text_home']
+LINE: 15
+FILE: catalog/controller/common/header.php
+CODE: $data['language'] = $this->load->controller('common/language');
+LINE: 145
+CODE: <li><a href="<?php echo $checkout; ?>" title="<?php echo $text_checkout; ?>"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $text_checkout; ?></span></a></li>
+LINE: 142
+CODE: $data['text_information'] = $this->language->get('text_information');
+LINE: 12
+CODE: <li><a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a></li>
+LINE: 25
+FILE: catalog/model/catalog/category.php
+CODE: public function getCategories($parent_id = 0) {
+LINE: 52
+----------------------------------------------------------------

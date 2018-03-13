@@ -31,6 +31,15 @@ class ControllerDShopunityExtension extends Controller {
 
    		$this->load->model('d_shopunity/extension');
 
+   		$data['extensions'] = false;
+   		if(isset($this->session->data['welcome_extensions'])){
+   			$filter_data = $this->session->data['welcome_extensions'];
+   		
+			$data['extensions'] = $this->model_d_shopunity_extension->getExtensions($filter_data);
+			unset($this->session->data['welcome_extensions']);
+   		}
+   		$data['href_market'] =  $this->url->link('d_shopunity/market', 'token=' . $this->session->data['token'], 'SSL');
+		
 		$data['store_extensions'] = $this->model_d_shopunity_extension->getStoreExtensions();
 		$data['local_extensions'] = $this->model_d_shopunity_extension->getLocalExtensions();
 		$data['unregestered_extensions'] = $this->model_d_shopunity_extension->getUnregisteredExtensions();
@@ -81,6 +90,35 @@ class ControllerDShopunityExtension extends Controller {
    		$data = $this->_productThumb($data);
    		$this->response->setOutput($this->load->view($this->route.'_item.tpl', $data));
 	}
+
+    public function thumb($extension_id){
+        $this->load->model('d_shopunity/extension');
+        //documentation http://t4t5.github.io/sweetalert/
+        $this->document->addStyle('view/javascript/d_shopunity/library/sweetalert/sweetalert.css');
+        $this->document->addScript('view/javascript/d_shopunity/library/sweetalert/sweetalert.min.js');
+        $this->document->addStyle('view/javascript/d_shopunity/library/syntaxhighlight/syntaxhighlight.css');
+        $this->document->addScript('view/javascript/d_shopunity/library/syntaxhighlight/syntaxhighlight.js');
+
+        $this->document->addStyle('view/stylesheet/shopunity/bootstrap.css');
+        $this->document->addStyle('view/stylesheet/d_shopunity/d_shopunity.css');
+        $this->document->addScript('view/javascript/d_shopunity/d_shopunity.js');
+
+        $data['extension'] = $this->model_d_shopunity_extension->getExtension($extension_id);
+        return $this->load->view('d_shopunity/extension_thumb.tpl', $data);
+    }
+
+    public function show_thumb(){
+        if(isset($this->request->get['extension_id'])){
+            $extension_id = $this->request->get['extension_id'];
+            $data['extension'] = $this->thumb($extension_id);
+            $data['purchase_url'] = str_replace('&amp;', '&', $this->url->link('d_shopunity/extension/purchase', 'token='.$this->session->data['token'], 'SSL')); 
+            $data['links'] = $this->document->getLinks();
+            $data['styles'] = $this->document->getStyles();
+            $data['scripts'] = $this->document->getScripts();
+            
+            $this->response->setOutput($this->load->view('d_shopunity/extension_show_thumb.tpl', $data));
+        }
+    }
 
 	public function dependency(){
 

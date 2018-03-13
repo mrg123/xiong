@@ -2,6 +2,10 @@
 
 <% var col_left = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-5' %>
 <% var col_right = (config.design.block_style == 'block') ? 'col-xs-12' : 'col-xs-7' %>
+<% var autocomplete = (Number(config.design.autocomplete)) ? 'on' : 'off' %>
+<% var telephone_countries = config.design.telephone_countries.split(',') %>
+<% var telephone_preferred_countries = config.design.telephone_preferred_countries.split(',') %>
+<% var telephone_validation = (Number(config.design.telephone_validation)) %>
 <% _.each(model.config.fields,  function(f){ %>
 	<% if(model[model.config.id][f.id] !== undefined || f.type == "heading" || f.type == "label"){ %>
 		<% if(f.type){ %>
@@ -53,6 +57,7 @@
 				            <div class="radio">
 				            	<label for="<%= model.config.id %>_<%= f.id %>_<%= option.value %>">
 				            		<input type="radio" 
+				            			autocomplete="<%= autocomplete %>" 
 						                name="<%= model.config.id %>.<%= f.id %>" 
 						                value="<%= option.value %>" 
 						                <%= require ? 'required' : '' %>
@@ -75,11 +80,6 @@
 			    data-sort="<%= f.sort_order %>">
 			    	
 			    	<% if(f.options){ %>
-			    		<div class="col-xs-12">
-			    		<label>
-			    			<%= htmlDecode(f.title) %>
-			    		</label>
-			    		</div>
 			    		<%  var i = 0 %> 
 			    		<% _.each(f.options, function(option){ %>
 		    			<div class="col-xs-12">
@@ -88,6 +88,7 @@
 						          name="<%= model.config.id %>.<%= f.id %>" 
 						          value="0" />
 					          <input type="checkbox" 
+					          autocomplete="<%= autocomplete %>" 
 					          name="<%= model.config.id %>.<%= f.id %>.<%= i %>" 
 					          id="<%= model.config.id %>_<%= f.id %>_<%= option.value %>" 
 					          class="validate not-required" 
@@ -107,6 +108,7 @@
 						          name="<%= model.config.id %>.<%= f.id %>" 
 						          value="0" />
 					          <input type="checkbox" 
+					          autocomplete="<%= autocomplete %>" 
 					          name="<%= model.config.id %>.<%= f.id %>" 
 					          id="<%= model.config.id %>_<%= f.id %>" 
 					          class="validate <%= require ? 'required' : 'not-required' %>" 
@@ -137,7 +139,7 @@
 		          <select name="<%= model.config.id %>.<%= f.id %>" 
 		            <%= require ? 'required' : '' %> 
 		            id="<%= model.config.id %>_<%= f.id %>"
-		            class="form-control <%= require ? 'required' : 'not-required' %> <%= f.id %>"  autocomplete="off">
+		            class="form-control <%= require ? 'required' : 'not-required' %> <%= f.id %>"  autocomplete="<%= autocomplete %>"  >
 		            <option value=""><?php echo $text_select; ?></option>
 		            <% if(f.options){ %>
 		                <% _.each(f.options, function(option){ %>
@@ -164,7 +166,7 @@
 					            id="<%= model.config.id %>_<%= f.id %>" 
 					            value="<%= model[model.config.id][f.id] %>" 
 					            class="form-control  <%= f.mask ? 'qc-mask': '' %> <%= f.type %> validate <%= require ? 'required' : 'not-required' %> <%= f.id %>" 
-					            autocomplite="on" 
+					            autocomplete="<%= autocomplete %>" 
 					            qc-mask="<%=f.mask%>" 
 					            <% if(f.type == "date"){ %>data-date-format="MM/DD/YYYY" <% } %>
 					            <% if(f.type == "time"){ %>data-date-format="HH:mm" <% } %>
@@ -193,9 +195,35 @@
 			            name="<%= model.config.id %>.<%= f.id %>" 
 			            id="<%= model.config.id %>_<%= f.id %>"
 			            class="form-control validate <%= require ? 'required' : 'not-required' %> <%= f.type %> <%= f.id %>" 
-			            autocomplite="on" 
+			            autocomplete="<%= autocomplete %>" 
 			            <% if(Number(config.design.placeholder)) {  %>placeholder="<%= require ? '*' : '' %> <%= htmlDecode(f.title).replace(':', '') %>"<% } %> 
 			            <%= setValidateRules(f.error) %> ><%= model[model.config.id][f.id] %></textarea>
+			        </div>
+			      </div>
+			<% }else if(f.type == "tel"){ %>
+			      <div id="<%= model.config.id %>_<%= f.id %>_input" 
+			        class="text-input form-group  sort-item <%= display ? '' : 'hidden' %> <%= f.class ? f.class : '' %> <%= require ? 'required' : '' %>" 
+			        data-sort="<%= f.sort_order %>">
+			        <div class="<%= col_left %>">
+			          <label class="control-label" for="<%= model.config.id %>_<%= f.id %>"> 
+			            <span class="text" <%= f.tooltip ? 'data-toggle="tooltip"' : '' %> title="<%= f.tooltip %>"> <%= htmlDecode(f.title) %></span> 
+			          </label>
+			        </div>
+			        <div class="<%= col_right %>"> 
+			          <input type="<%= f.type %>" 
+			            name="<%= model.config.id %>.<%= f.id %>" 
+			            id="<%= model.config.id %>_<%= f.id %>" 
+			            value="<%= model[model.config.id][f.id] %>" 
+			            class="form-control <%= f.mask ? 'qc-mask': '' %> <%= require ? 'required' : 'not-required' %> <%= f.id %> <%= telephone_validation ? 'telephone-validation' : '' %> " 
+			            autocomplete="<%= autocomplete %>" 
+			            data-telephone_countries="<%= telephone_countries %>"
+			            data-telephone_preferred_countries="<%= telephone_preferred_countries %>"
+			            
+			            <% if(f.mask){ %>
+			            qc-mask="<%= f.mask %>"
+			            <% } %> 
+			            <% if(Number(config.design.placeholder)) {  %>placeholder="<%= htmlDecode(f.placeholder).replace(':', '') %>"<% } %> 
+			            <%= setValidateRules(f.error) %> />
 			        </div>
 			      </div>
 
@@ -214,7 +242,7 @@
 			            id="<%= model.config.id %>_<%= f.id %>" 
 			            value="<%= model[model.config.id][f.id] %>" 
 			            class="form-control <%= f.mask ? 'qc-mask': '' %> <%= require ? 'required' : 'not-required' %> <%= f.id %>" 
-			            autocomplite="on"
+			            autocomplete="<%= autocomplete %>" 
 			            <% if(f.mask){ %>
 			            qc-mask="<%= f.mask %>"
 			            <% } %> 
@@ -270,6 +298,12 @@ function setValidateRules(rules){
 			result+= 'data-rule-equalto="'+rule.compare_to+'" ';
 			if(rule.text){
 				result+= 'data-msg-equalto="'+rule.text+'" ';
+			}
+		}
+
+		if(rule.telephone){
+			if(rule.text){
+				result+= 'data-msg-telephone="'+rule.text+'" ';
 			}
 		}
 

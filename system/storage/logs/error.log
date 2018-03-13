@@ -22,3 +22,7 @@
 2018-03-13 2:30:20 - PHP Notice:  Undefined index: slider_image2 in D:\git\case\xiong\admin\controller\module\butopbanner.php on line 138
 2018-03-13 2:30:20 - PHP Notice:  Undefined index: slider_image2 in D:\git\case\xiong\admin\controller\module\butopbanner.php on line 138
 2018-03-13 2:30:20 - PHP Notice:  Undefined index: slider_image2 in D:\git\case\xiong\admin\controller\module\butopbanner.php on line 138
+2018-03-14 0:40:36 - PHP Warning:  strpos(): Empty needle in D:\git\case\xiong\catalog\controller\account\login.php on line 96
+2018-03-14 0:40:36 - PHP Warning:  strpos(): Empty needle in D:\git\case\xiong\catalog\controller\account\login.php on line 96
+2018-03-14 0:53:52 - PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent in D:\git\case\xiong\system\library\session.php on line 21
+2018-03-14 0:55:28 - PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent in D:\git\case\xiong\system\library\session.php on line 21

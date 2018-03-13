@@ -54,6 +54,9 @@ class ModelDQuickcheckoutOrder extends Model {
         if (empty($this->session->data['shipping_methods'])) {
                $result = false;
         }
+        if (empty($this->session->data['shipping_method'])) {
+            $result = false;
+        }
 
         return $result;
     }
@@ -100,14 +103,16 @@ class ModelDQuickcheckoutOrder extends Model {
             forwarded_ip = '" . $this->db->escape($data['forwarded_ip']) . "', 
             user_agent = '" . $this->db->escape($data['user_agent']) . "', 
             accept_language = '" . $this->db->escape($data['accept_language']) . "', 
-            date_added = date_add(NOW(),interval 8 hour), 
-            date_modified = date_add(NOW(),interval 8 hour)");
+            date_added = NOW(), 
+            date_modified = NOW()");
         $order_id = $this->db->getLastId();
         return $order_id;
     }
 
     public function updateOrder($order_id, $data) {
-        $this->event->trigger('pre.order.add', $data);
+        if(VERSION < '2.3.0.0'){
+            $this->event->trigger('pre.order.add', $data);
+        }
 
         $query = "UPDATE `" . DB_PREFIX . "order` SET 
             invoice_prefix = '" . $this->db->escape($data['invoice_prefix']) . "', 
@@ -185,8 +190,8 @@ class ModelDQuickcheckoutOrder extends Model {
             forwarded_ip = '" . $this->db->escape($data['forwarded_ip']) . "', 
             user_agent = '" . $this->db->escape($data['user_agent']) . "', 
             accept_language = '" . $this->db->escape($data['accept_language']) . "', 
-            date_added = date_add(NOW(),interval 8 hour), 
-            date_modified = date_add(NOW(),interval 8 hour)
+            date_added = NOW(), 
+            date_modified = NOW()
             WHERE order_id = '" . (int) $order_id . "'";
 
         $this->db->query($query);
@@ -225,8 +230,9 @@ class ModelDQuickcheckoutOrder extends Model {
         foreach ($data['totals'] as $total) {
             $this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_id = '" . (int) $order_id . "', code = '" . $this->db->escape($total['code']) . "', title = '" . $this->db->escape($total['title']) . "', `value` = '" . (float) $total['value'] . "', sort_order = '" . (int) $total['sort_order'] . "'");
         }
-
-        $this->event->trigger('post.order.add', $order_id);
+        if(VERSION < '2.3.0.0'){
+            $this->event->trigger('post.order.add', $order_id);
+        }
 
         return $order_id;
     }
@@ -255,15 +261,22 @@ class ModelDQuickcheckoutOrder extends Model {
 
         foreach ($results as $result) {
             if ($this->config->get($result['code'] . '_status')) {
-                $this->load->model('total/' . $result['code']);
-                if(VERSION >= '2.2.0.0'){
+                
+                if(VERSION < '2.2.0.0'){
+                    $this->load->model('total/' . $result['code']);
+                    $this->{'model_total_' . $result['code']}->getTotal($total_data['totals'], $total_data['total'], $total_data['taxes']);
+                }elseif(VERSION < '2.3.0.0'){
+                    $this->load->model('total/' . $result['code']);
                     $this->{'model_total_' . $result['code']}->getTotal($total_data);
                 }else{
-                    $this->{'model_total_' . $result['code']}->getTotal($total_data['totals'], $total_data['total'], $total_data['taxes']);
+                    $this->load->model('extension/total/' . $result['code']);
+                    $this->{'model_extension_total_' . $result['code']}->getTotal($total_data);
                 }
                 
             }
         }
+
+     
 
         $sort_order = array();
 
@@ -295,7 +308,10 @@ class ModelDQuickcheckoutOrder extends Model {
 
     public function addVoucher($order_id, $voucher) {
 
-        if (VERSION >= '2.1.0.1') {
+        if(VERSION >= '2.3.0.0'){
+            $this->load->model('extension/total/voucher');
+            return $this->model_extension_total_voucher->addVoucher($order_id, $voucher);
+        } elseif (VERSION >= '2.1.0.1') {
             $this->load->model('total/voucher');
             return $this->model_total_voucher->addVoucher($order_id, $voucher);
         } else {

@@ -1,9 +1,3 @@
-<!-- 
-	Ajax Quick Checkout 
-	v6.0.0
-	Dreamvention.com 
-	d_quickcheckout/confirm.tpl 
--->
 <div id="confirm_view" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>
 <script type="text/html" id="confirm_template">
 <div id="confirm_wrap">
@@ -28,10 +22,5 @@ $(function() {
 		template: _.template($("#confirm_template").html())
 	}));
 });
-$(function() {
-$("#confirm_agree").trigger("click");
-<?php if(isset($order_ad_title)){ ?>
-$("#confirm_agree_input label").append("&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"index.php?route=information/order_ad\" class=\"agree\" style=\"color:red;font-size:16px;\"><?php echo $order_ad_title; ?></a>");
-<?php } ?>
-});
+
 </script>

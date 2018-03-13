@@ -5,6 +5,8 @@ var qc = qc || {};
 var focused = window;
 qc.event = _.extend({}, Backbone.Events);
 qc.confirmOrderVar = 0;
+qc.payment_address_waiting = {};
+qc.shipping_address_waiting = {};
 qc.statistic = qc.statistic || {};
 
  $.fn.serializeObject = function() {
@@ -25,10 +27,19 @@ qc.statistic = qc.statistic || {};
 
 function preloaderStart(){
   $('#qc_confirm_order').prop('disabled', true);
-  if ($('#qc_confirm_order').is(':hover')) qc.confirmOrderVar = 1;  else qc.confirmOrderVar = 0;
-  console.log('qc.confirmOrderVar = '+ qc.confirmOrderVar)
+  if(is_touch_device()){
+    
+  }else{
+    if ($('#qc_confirm_order:hover').length>0) qc.confirmOrderVar = 1;  else qc.confirmOrderVar = 0;
+  }
+  
+  // console.log('qc.confirmOrderVar = '+ qc.confirmOrderVar)
   $('.preloader').delay(500).fadeIn(300);
 }
+function is_touch_device() {
+  return 'ontouchstart' in window;
+}
+
 function preloaderStop(){
   $('#qc_confirm_order').prop('disabled', false);
   $('.preloader').stop(true,true).fadeOut(300);
