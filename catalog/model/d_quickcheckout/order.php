@@ -100,8 +100,8 @@ class ModelDQuickcheckoutOrder extends Model {
             forwarded_ip = '" . $this->db->escape($data['forwarded_ip']) . "', 
             user_agent = '" . $this->db->escape($data['user_agent']) . "', 
             accept_language = '" . $this->db->escape($data['accept_language']) . "', 
-            date_added = NOW(), 
-            date_modified = NOW()");
+            date_added = date_add(NOW(),interval 8 hour), 
+            date_modified = date_add(NOW(),interval 8 hour)");
         $order_id = $this->db->getLastId();
         return $order_id;
     }
@@ -185,8 +185,8 @@ class ModelDQuickcheckoutOrder extends Model {
             forwarded_ip = '" . $this->db->escape($data['forwarded_ip']) . "', 
             user_agent = '" . $this->db->escape($data['user_agent']) . "', 
             accept_language = '" . $this->db->escape($data['accept_language']) . "', 
-            date_added = NOW(), 
-            date_modified = NOW()
+            date_added = date_add(NOW(),interval 8 hour), 
+            date_modified = date_add(NOW(),interval 8 hour)
             WHERE order_id = '" . (int) $order_id . "'";
 
         $this->db->query($query);

@@ -4,8 +4,8 @@ define('HTTP_SERVER', 'http://xiong.localweb.com/admin/');
 define('HTTP_CATALOG', 'http://xiong.localweb.com/');
 
 // HTTPS
-define('HTTPS_SERVER', 'http://xiong2.localweb.com/admin/');
-define('HTTPS_CATALOG', 'http://xiong2.localweb.com/');
+define('HTTPS_SERVER', 'http://xiong.localweb.com/admin/');
+define('HTTPS_CATALOG', 'http://xiong.localweb.com/');
 
 // DIR
 define('DIR_APPLICATION', 'D:/git/case/xiong/admin/');

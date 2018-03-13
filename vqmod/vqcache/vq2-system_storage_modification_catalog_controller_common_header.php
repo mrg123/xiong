@@ -40,6 +40,53 @@ if($this->config->get('product_toggle_chinese_and_robots_status')){
 			}
 			
 			}
+			
+			
+			/* 判断是否开启toggle 更换logo */
+			if($this->config->get('product_toggle_status')){
+			$vip = 0;
+		if ($this->config->get('customer_toggle_status') && $this->customer->isLogged()) {
+				$customer_id = $this->customer->getId();
+				$this->load->model('module/customer_toggle');
+				$customer_toggle = $this->model_module_customer_toggle->getToggleByCustomerId($customer_id);
+				if($customer_toggle){
+					if($customer_toggle['toggle']){
+						/* 有参数正确,仿品可见*/
+						$vip = 1;
+					}else{
+						/* 为 0*/
+						$vip = 0;
+					}
+				}else{
+					/* NULL */
+					$vip = 0;
+				}
+		}
+			
+		if (!isset($this->request->cookie['toggle']) && !$vip) {
+		
+			if(isset($this->request->get[strtolower($this->config->get('product_toggle_parameter'))]) || isset($this->request->get[strtoupper($this->config->get('product_toggle_parameter'))])){
+						/* 有参数正确,仿品可见,设置session */
+						
+						if($this->config->get('product_toggle_expire')){
+							$expire = $this->config->get('product_toggle_expire');
+							setcookie('toggle', '1' , time() + 60 * 60 * 24 * $expire, '/' ,$this->request->server['HTTP_HOST']);
+						}else{
+							setcookie('toggle', '1' , time() + 60 * 60 * 24 * 30 * 12 * 10, '/' ,$this->request->server['HTTP_HOST']);
+						}
+						$show_logo = 1;
+						
+					}else{
+						/* 无参数 */
+					}
+			
+		}else{
+			$show_logo = 1;	
+		}	
+		
+		
+		
+			}
 		// Analytics
 		$this->load->model('extension/extension');
 
@@ -91,6 +138,9 @@ if($this->config->get('product_toggle_chinese_and_robots_status')){
 			$data['logo'] = '';
 		}
 
+if(isset($show_logo)){
+					$data['logo'] = $server . 'image/' . $this->config->get('product_toggle_logo');
+				}
 		$this->load->language('common/header');
 
 		$data['text_home'] = $this->language->get('text_home');

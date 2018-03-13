@@ -105,6 +105,16 @@
 							</div>
 						</div>
 						
+						<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-image2">Toggle <?php echo $entry_image; ?></label>
+							<div class="col-sm-10">
+						<a href="" id="thumb-image2_<?php echo $butopbanner_module['key']; ?>_<?php echo $language['language_id']; ?>" data-toggle="image" class="img-thumbnail">
+<img width="100" height="100" src="<?php if(isset($butopbanner_module['slider_image2'][$language['language_id']]) && trim($butopbanner_module['slider_image2'][$language['language_id']]) !='') { echo HTTPS_CATALOG .'image/' . $butopbanner_module['slider_image2'][$language['language_id']]; } else { ?><?php echo HTTPS_CATALOG ?>image/cache/no_image-100x100.png <?php } ?>" alt="no image" title="browse image" data-placeholder="browse image" />
+						</a>
+						<input type="hidden" name="butopbanner_module[<?php echo $butopbanner_module['key']; ?>][slider_image2][<?php echo $language['language_id']; ?>]" value="<?php echo isset($butopbanner_module['slider_image2'][$language['language_id']]) ? $butopbanner_module['slider_image2'][$language['language_id']] : ''; ?>" id="input-image2_<?php echo $butopbanner_module['key']; ?>_<?php echo $language['language_id']; ?>" /> 
+							</div>
+						</div>
+						
 
                     </div>
                     <?php } ?>
@@ -160,6 +170,11 @@ function addModule() {
         butopbanner += '      <div class="form-group">';
         butopbanner += '        <label class="col-sm-2 control-label" for="input-image' + token + '-language<?php echo $language['language_id']; ?>"><?php echo $entry_image; ?></label>';
         butopbanner += '        <div class="col-sm-10"><a href="" id="thumb-image_' + token + '_<?php echo $language['language_id']; ?>" data-toggle="image" class="img-thumbnail"><img width="100" height="100" src="<?php echo HTTPS_CATALOG ?>image/cache/no_image-100x100.png" alt="no image" title="browse image" data-placeholder="browse image" /></a><input type="hidden" name="butopbanner_module[' + token + '][slider_image][<?php echo $language['language_id']; ?>]" value="" id="input-image_' + token + '_<?php echo $language['language_id']; ?>" /></div>';
+        butopbanner += '      </div>';
+		
+		butopbanner += '      <div class="form-group">';
+        butopbanner += '        <label class="col-sm-2 control-label" for="input-image2' + token + '-language<?php echo $language['language_id']; ?>">Toggle <?php echo $entry_image; ?></label>';
+        butopbanner += '        <div class="col-sm-10"><a href="" id="thumb-image2_' + token + '_<?php echo $language['language_id']; ?>" data-toggle="image" class="img-thumbnail"><img width="100" height="100" src="<?php echo HTTPS_CATALOG ?>image/cache/no_image-100x100.png" alt="no image" title="browse image" data-placeholder="browse image" /></a><input type="hidden" name="butopbanner_module[' + token + '][slider_image2][<?php echo $language['language_id']; ?>]" value="" id="input-image2_' + token + '_<?php echo $language['language_id']; ?>" /></div>';
         butopbanner += '      </div>';
         
 	butopbanner += '    </div>';

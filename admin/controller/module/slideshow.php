@@ -111,6 +111,14 @@ class ControllerModuleSlideshow extends Controller {
 		} else {
 			$data['banner_id'] = '';
 		}
+		
+		if (isset($this->request->post['banner_id2'])) {
+			$data['banner_id2'] = $this->request->post['banner_id2'];
+		} elseif (!empty($module_info)) {
+			$data['banner_id2'] = $module_info['banner_id2'];
+		} else {
+			$data['banner_id2'] = '';
+		}
 
 		$this->load->model('design/banner');
 

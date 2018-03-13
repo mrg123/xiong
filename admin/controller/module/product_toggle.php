@@ -80,6 +80,21 @@ class ControllerModuleProductToggle extends Controller {
 			$data['product_toggle_expire'] = $this->config->get('product_toggle_expire');
 		}
 		
+		if (isset($this->request->post['product_toggle_logo'])) {
+			$data['product_toggle_logo'] = $this->request->post['product_toggle_logo'];
+		} else {
+			$data['product_toggle_logo'] = $this->config->get('product_toggle_logo');
+		}
+		$this->load->model('tool/image');
+		if (isset($this->request->post['product_toggle_logo']) && is_file(DIR_IMAGE . $this->request->post['product_toggle_logo'])) {
+			$data['logo'] = $this->model_tool_image->resize($this->request->post['product_toggle_logo'], 100, 100);
+		} elseif ($this->config->get('product_toggle_logo') && is_file(DIR_IMAGE . $this->config->get('product_toggle_logo'))) {
+			$data['logo'] = $this->model_tool_image->resize($this->config->get('product_toggle_logo'), 100, 100);
+		} else {
+			$data['logo'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+		}
+		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+		
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -190,6 +205,8 @@ class ControllerModuleProductToggle extends Controller {
 		$data['entry_status'] = $this->language->get('entry_status');
 		$data['entry_parameter'] = $this->language->get('entry_parameter');
 		$data['text_related_id'] = $this->language->get('text_related_id');
+		
+		$data['entry_logo'] = $this->language->get('entry_logo');
 		
 		$data['button_filter'] = $this->language->get('button_filter');
 		

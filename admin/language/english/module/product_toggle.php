@@ -41,3 +41,5 @@ $_['entry_expire'] = 'Expire Time(days)';
 $_['entry_warning_zh'] = 'Warning Chinese';
 $_['error_product_toggle_expire'] = 'Expire in 1 to 3600';
 $_['entry_product_toggle_chinese_and_robots_status'] = 'Block Chinese And Robots Status';
+$_['entry_logo'] = 'Toggle Logo';
+$_['placeholder'] = 'Logo';

@@ -76,6 +76,13 @@
               </select>
             </div>
           </div>	
+		  
+		  <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-logo"><?php echo $entry_logo; ?></label>
+                <div class="col-sm-10"><a href="" id="thumb-logo" data-toggle="image" class="img-thumbnail"><img src="<?php echo $logo; ?>" alt="" title="" data-placeholder="<?php echo $placeholder; ?>" /></a>
+                  <input type="hidden" name="product_toggle_logo" value="<?php echo $product_toggle_logo; ?>" id="input-product_toggle_logo" />
+                </div>
+          </div>
           
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>

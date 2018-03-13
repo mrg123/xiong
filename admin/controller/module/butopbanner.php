@@ -134,7 +134,8 @@ class ControllerModuleButopbanner extends Controller {
 				'heading'     => $module['heading'],
 				'description' => $module['description'],
 				'link' => $module['link'],
-				'slider_image' => $module['slider_image']
+				'slider_image' => $module['slider_image'],
+				'slider_image2' => $module['slider_image2']
 			);
 		}
 

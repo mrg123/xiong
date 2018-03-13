@@ -48,6 +48,20 @@
               </select>
             </div>
           </div>
+		  <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-banner">Toggle <?php echo $entry_banner; ?></label>
+            <div class="col-sm-10">
+              <select name="banner_id2" id="input-banner" class="form-control">
+                <?php foreach ($banners as $banner) { ?>
+                <?php if ($banner['banner_id'] == $banner_id2) { ?>
+                <option value="<?php echo $banner['banner_id']; ?>" selected="selected"><?php echo $banner['name']; ?></option>
+                <?php } else { ?>
+                <option value="<?php echo $banner['banner_id']; ?>"><?php echo $banner['name']; ?></option>
+                <?php } ?>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-width"><?php echo $entry_width; ?></label>
             <div class="col-sm-10">

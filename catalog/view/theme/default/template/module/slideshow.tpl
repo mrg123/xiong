@@ -1,10 +1,10 @@
-<div id="slideshow<?php echo $module; ?>" class="owl-carousel" style="opacity: 1;">
+<div id="slideshow<?php echo $module; ?>" class="owl-carousel" style="opacity: 1;margin-top:-10px">
   <?php foreach ($banners as $banner) { ?>
   <div class="item">
     <?php if ($banner['link']) { ?>
     <a href="<?php echo $banner['link']; ?>"><img src="<?php echo $banner['image']; ?>" alt="<?php echo $banner['title']; ?>" class="img-responsive" /></a>
     <?php } else { ?>
-    <img src="<?php echo $banner['image']; ?>" alt="<?php echo $banner['title']; ?>" class="img-responsive" />
+    <img src="<?php echo $banner['image']; ?>" alt="<?php echo $banner['title']; ?>" class="img-responsive" width="100%"/>
     <?php } ?>
   </div>
   <?php } ?>
