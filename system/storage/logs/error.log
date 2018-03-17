@@ -33,3 +33,5 @@
 2018-03-14 11:42:01 - PHP Notice:  Undefined index: language in D:\git\case\xiong\catalog\view\theme\default\template\common\home.tpl on line 5
 2018-03-14 11:42:03 - PHP Notice:  Undefined index: language in D:\git\case\xiong\catalog\view\theme\default\template\common\home.tpl on line 5
 2018-03-14 11:42:23 - PHP Notice:  Undefined variable: _COOKKIE in D:\git\case\xiong\catalog\view\theme\default\template\common\home.tpl on line 5
+2018-03-18 4:33:09 - PHP Warning:  rmdir(D:/git/case/xiong/system/storage/modification/admin/model): Directory not empty in D:\git\case\xiong\admin\model\d_shopunity\ocmod.php on line 193
+2018-03-18 4:33:09 - PHP Warning:  rmdir(D:/git/case/xiong/system/storage/modification/admin): Directory not empty in D:\git\case\xiong\admin\model\d_shopunity\ocmod.php on line 193
