@@ -111,3 +111,8 @@ admin\model\design\layout.php
 admin\view\template\design\layout_list.tpl
 admin\language\english\error\permission.php
 admin\view\template\error\permission.tpl
+catalog\language\english\product\product.php
+catalog\model\module\product_toggle.php
+catalog\model\catalog\review.php
+catalog\model\tool\image.php
+catalog\view\theme\default\template\product\option_product.tpl

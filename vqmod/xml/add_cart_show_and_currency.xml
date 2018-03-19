@@ -4,15 +4,16 @@
     <version>1</version>
     <vqmver>2.4.1</vqmver>
     <author>wang</author>
-
+	
 	<file name="catalog/controller/product/product.php">
 		<operation>
 			<search position="before" index="1"><![CDATA[$data['column_left'] = $this->load->controller('common/column_left');]]></search>
 			<add trim="true"><![CDATA[
-			$data['currency'] = $this->load->controller('common/currency');
+			$data['currency'] = $this->load->controller('common/currency1');
 			]]></add>
 		</operation>
     </file>
+	
 	
 	<file name="catalog/view/theme/default/template/product/product.tpl">
 		<operation>
