@@ -3,6 +3,33 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right">
+<?php if($xls_status) { ?>
+			<a target="_blank" data-url="<?php echo $xls; ?>" data-toggle="tooltip" title="export" class="btn btn-primary" id="toxls"><i class="fa fa-download"></i></a>
+			<?php } ?>
+
+			<script type="text/javascript">
+
+				$(document).ready(function() {
+					$('#toxls').click(function(){
+						var url = $(this).data('url');
+
+						var id_array='';
+						$('input[name="selected[]"]').each(function(){
+							if($(this).is(':checked') == true){
+								id_array += '_' + $(this).val();
+							}
+
+						});
+						if(id_array !== ''){
+							url += '&ids='+id_array.substr(1);
+
+						}
+
+						window.location.href = url;
+
+					});
+				});
+			</script>
         <button type="submit" id="button-shipping" form="form-order" formaction="<?php echo $shipping; ?>" data-toggle="tooltip" title="<?php echo $button_shipping_print; ?>" class="btn btn-info"><i class="fa fa-truck"></i></button>
         <button type="submit" id="button-invoice" form="form-order" formaction="<?php echo $invoice; ?>" data-toggle="tooltip" title="<?php echo $button_invoice_print; ?>" class="btn btn-info"><i class="fa fa-print"></i></button>
         <a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a></div>

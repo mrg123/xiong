@@ -341,6 +341,15 @@
 .numless{background-position:0px 0px;}
 .numqty{width:40px;height:22px;display:inline-block;position: relative;height:22px;line-height:22px;}
 #input-quantity{color:#666;text-align:center;border:0px solid #f2f2f0;padding:0;position: absolute;top:8px;}
+
+
+.op_numadd , .op_numless{width:23px;height:22px;display:inline-block;color:#666;cursor:pointer;background-image:url(catalog/view/theme/default/image/add_less.png);background-color:#f2f2f0;}
+.op_numadd{background-position:0px -22px;    margin-bottom: 20px;}
+.op_numless{background-position:0px 0px;}
+.op_numqty{width:40px;height:22px;display:inline-block;position: relative;height:22px;line-height:22px;}
+#input-op_quantity{color:#666;text-align:center;border:0px solid #f2f2f0;padding:0;position: absolute;top:8px;}
+
+
 </style>
 &nbsp;&nbsp;
 			<span class="numless">&nbsp;</span>
@@ -380,12 +389,14 @@ $('input[name=\'quantity\']').val(oldValue);
                     </div>
                     <div class="related-product-selected" style="padding:0 8px;line-height:100%;box-sizing:border-box;width:40px;">
                         <label>
-							<input type="checkbox" value="<?php echo $product['product_id']; ?>" data-min="<?php echo $product['minimum']; ?>" name="related[]" style="width:18px;height:18px;" />
+							<input type="checkbox" value="<?php echo $product['product_id']; ?>" data-min="<?php echo $product['minimum']; ?>" name="related[]" style="width:18px;height:18px;" data-quantity='<?php echo $product['minimum']; ?>' data-option='' data-required='<?php echo $product['required']; ?>' />
 						</label>
                     </div>
 					<div class="related-product-name" style="text-transform:uppercase;font-size:13px;color:#1e1e1e;font-weight:600;">
 					add &nbsp; 
+					<a href="index.php?route=product/product/getOptionProduct&product_id=<?php echo $product['product_id']; ?>" class="toshow">
 					<?php echo $product['name']; ?>
+					</a>
 					
 					<?php if ($product['price']) { ?>
                 &nbsp; <span style="color:#1eaf4d">
@@ -574,7 +585,7 @@ $('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
 
 	
 $(document).ready(function() {
-	$('.related-product-image, .related-product-name').click(function(){
+	$('.related-product-image').click(function(){
 		if($(this).parent().find('input[type="checkbox"]').is(':checked') == true){
 			$(this).parent().find('input[type="checkbox"]').prop("checked",false);
 			
@@ -584,14 +595,148 @@ $(document).ready(function() {
 		}
 	});
 });	
+
+$(document).delegate('.toshow', 'click', function(e) {
+	e.preventDefault();
+
+	$('#modal-toshow').remove();
+
+	var element = this;
+
+	$.ajax({
+		url: $(element).attr('href'),
+		type: 'get',
+		dataType: 'html',
+		success: function(data) {
+			html  = '<div id="modal-toshow" class="modal" style="padding:30px;">';
+			
+			html += '  <div class="toshow-dialog" style="max-width:1100px;position:relative;width:100%;margin:0 auto;background-color:#FAFAFA;display:table;">';
+			html += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin:10px 20px;font-size:30px;">&times;</button>';
+			html += data ;
+			html += '</div>';
+			html += '</div>';
+
+			$('body').append(html);
+
+			$('#modal-toshow').modal('show');
+		}
+	});
+});
+
+$(document).on("click", ".ch_img", function()  {
+    var srcimg = $(this).attr('name');
+    var srcim = $(this).attr('val');
+    $(this).parents('.thumbnails').find('.zoom').attr('src', srcimg);
+    $(this).parents('.thumbnails').find('.zoom').attr('href', srcim);
+ event.preventDefault();
+    }); 
+	
+$(document).on("click", ".op_numadd", function()  {
+var oldValue = $('#input-op_quantity').val();
+oldValue++;
+$('#input-op_quantity').val(oldValue);
+});
+
+$(document).on("click", ".op_numless", function()  {
+var oldValue = $('#input-op_quantity').val();
+oldValue--;
+if(oldValue<=1){
+oldValue = 1;
+}
+$('#input-op_quantity').val(oldValue);
+});
+
+$(document).on("click", "#add_op", function()  {
+	var op_quantity = $('#input-op_quantity').val();
+	var op_id = $('#input-op_quantity').data('product_id');
+	// $('#modal-toshow').modal('hide');
+	var op_required = $('#input-op_quantity').data('required');
+	if($.trim(op_required)!=0){
+		$('.alert, .text-danger').remove();
+        op_required = (op_required.substr(1)).split("_");
+		var err = 0;
+		var op_op = '';
+		$.each(op_required,function(index,value){	
+			if($('#input-option'+value).val()==''){
+			$('#input-option'+value).after('<div class="text-danger">MISSING FIELD REQUIRED</div>');
+			err++;
+			}else{
+			op_op += ',' + value + '_' + $('#input-option'+value).val();
+			}
+		});
+		
+		$('.text-danger').parent().addClass('has-error');
+		
+		if(err==0){
+			$('#modal-toshow').modal('hide');
+			_that = $('.related-product-list input[value='+op_id+']');
+			
+			_that.attr("data-quantity",op_quantity);
+			_that.attr("data-option",op_op);
+			_that.prop("checked",true);
+			
+			console.log(op_quantity);
+			console.log(_that.attr("data-quantity"));
+			console.log(_that.attr("data-option"));
+			console.log(_that);
+			
+		}
+		
+	}
+	
+});
+
+	
 			
 $('#button-cart').on('click', function() {
 
+			var err = 0;
 			if($('input[name="related[]"]').length > 0){
 		$('input[name="related[]"]:checked').each(function(){
-			cart.add($(this).val(), $(this).data('min'));
+			if($(this).data('required')){
+			console.log($(this).attr('data-option'));
+				if($(this).attr('data-option')==''){
+				console.log($(this).attr('data-option'));
+				$(this).prop('checked',false);
+				$('.toshow').trigger('click');
+				err = 1;
+				return false;
+				}else{
+				
+			var product_id = $(this).val();	
+			var quantity = $(this).data('quantity');	
+			var options = $(this).data('option');	
+				
+			$.ajax({
+			url: 'index.php?route=product/product/addOptionProductToCart',
+			type: 'post',
+			data: 'product_id=' + product_id + '&quantity=' + quantity + '&options='+options,
+			dataType: 'json',
+			beforeSend: function() {
+				
+			},
+			complete: function() {
+				$('#cart > button').button('reset');
+			},
+			success: function(json) {
+				
+			},
+	        error: function(xhr, ajaxOptions, thrownError) {
+	            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	        }
+		});
+				
+				}
+			}else{
+				cart.add($(this).val(), $(this).data('quantity'));
+			}
 		});
 	}
+	if(err){
+	return false;
+	}
+	
+	
 			
 	$.ajax({
 		url: 'index.php?route=checkout/cart/add',
