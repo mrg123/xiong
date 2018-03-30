@@ -1,5 +1,3 @@
-<div class="container">
-  <div class="row">
 <?php if($status) { ?>
 <div class="row bu_top_banners">
 	<?php
@@ -41,5 +39,3 @@
         <?php } ?>
 </div>
 <?php } ?>
-</div>
-</div>

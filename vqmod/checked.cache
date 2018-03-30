@@ -225,3 +225,6 @@ admin\controller\module\butopbanner.php
 admin\model\setting\setting.php
 admin\view\template\module\butopbanner.tpl
 admin\language\english\common\filemanager.php
+admin\view\template\design\banner_form.tpl
+admin\controller\module\html.php
+admin\view\template\module\html.tpl
