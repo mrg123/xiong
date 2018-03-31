@@ -1,5 +1,86 @@
 <?php
 class ControllerCommonFooter extends Controller {
+
+public function addTrack(){
+	
+	/*
+	是否记录访客的会话
+	*/	
+	$add = 0;
+	if (isset($this->session->data['track_id'])) {
+		$track_id = $this->session->data['track_id'];
+	} elseif (isset($this->request->cookie['track_id'])) {
+		$track_id = $this->request->cookie['track_id'];	
+	} elseif (isset($this->request->get['visitor'])) {
+		$track_id = 1;	
+		$add = 1;
+	} else {
+		$track_id = 0;	
+	}
+	
+	/* 开始记录访客的会话信息 */
+		if($add){
+		
+		/* 新增访客信息,或者是*/
+		if (isset($this->request->server['REMOTE_ADDR'])) {
+			$ip = $this->request->server['REMOTE_ADDR'];
+		} else {
+			$ip = '';
+		}
+
+		if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
+			$url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
+		} else {
+			$url = '';
+		}
+
+		if (isset($this->request->server['HTTP_REFERER'])) {
+			$referer = $this->request->server['HTTP_REFERER'];
+		} else {
+			$referer = '';
+		}
+			
+		$session_id = $this->session->getId();
+		
+		$visitor = $this->request->get['visitor'];
+		
+		$nation = '';
+		
+		$tracks = array(
+			'session_id' => $session_id,
+			'visitor' => $visitor,
+			'ip' => $ip,
+			'nation' => $nation,
+			'referer' => $referer,
+			'landing_url' => $url
+		);
+		
+		/* add track */
+		$this->db->query("INSERT INTO " . DB_PREFIX . "track SET session_id = '" . $this->db->escape($tracks['session_id']) . "', visitor = '" . $this->db->escape($tracks['visitor']) . "', ip = '" . $this->db->escape($tracks['ip']) . "', nation = '" . $this->db->escape($tracks['nation']) . "', referer = '" . $this->db->escape($tracks['referer']) . "', landing_url = '" . $this->db->escape($tracks['landing_url']) . "', date_added = NOW()");
+	
+		$track_id = $this->db->getLastId();
+		
+		/* add track url*/
+		$this->db->query("INSERT INTO " . DB_PREFIX . "track_url SET track_id = '" . (int)$track_id . "', url = '" . $this->db->escape($tracks['landing_url']) . "', date = NOW()");
+	
+		$this->session->data['track_id'] = $track_id;
+		setcookie('track_id', $track_id, time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);
+		
+		}elseif($track_id){
+			/*记录访问的页面*/
+			if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
+			$url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
+			} else {
+				$url = '';
+			}
+			/* add track url*/
+		$this->db->query("INSERT INTO " . DB_PREFIX . "track_url SET track_id = '" . (int)$track_id . "', url = '" . $this->db->escape($url) . "', date = NOW()");
+		}
+	
+	
+	
+	}
+			
 	public function index() {
 		$this->load->language('common/footer');
 
@@ -44,6 +125,7 @@ class ControllerCommonFooter extends Controller {
 		$data['config_html'] = $this->config->get('config_html');
 		
 
+$this->addTrack();
 		$this->load->model('catalog/information');
 
 		$data['informations'] = array();

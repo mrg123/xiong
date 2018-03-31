@@ -168,19 +168,6 @@
             ]]></add>
         </operation>
 	</file>
-
-	<file name="admin/language/czech/catalog/product.php">
-        <operation>
-            <search position="after"><![CDATA[
-            $_['column_image']
-            ]]></search>
-            <add><![CDATA[
-			// Add
-			$_['column_category']        = 'Categorie';
-			// End add
-            ]]></add>
-        </operation>
-	</file>
 	
 	<file name="admin/model/catalog/product.php">
 	

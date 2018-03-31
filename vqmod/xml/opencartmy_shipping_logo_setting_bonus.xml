@@ -30,9 +30,9 @@ $quote_data['pickup'] = array(
 
 <file name="catalog/language/english/shipping/pickup.php">
 <operation>
-<search position="before">
+<search position="after">
 <![CDATA[
-?>
+<?
 ]]>
 </search>
 <add>
@@ -109,9 +109,9 @@ $quote_data['free'] = array(
 
 <file name="catalog/language/english/shipping/free.php">
 <operation>
-<search position="before">
+<search position="after">
 <![CDATA[
-?>
+<?
 ]]>
 </search>
 <add>

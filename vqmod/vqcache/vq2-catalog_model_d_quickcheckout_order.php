@@ -1,9 +1,4 @@
 <?php
-
-/*
- *  location: admin/model
- */
-
 class ModelDQuickcheckoutOrder extends Model {
 
     public function isCartEmpty() {
@@ -106,6 +101,11 @@ class ModelDQuickcheckoutOrder extends Model {
             date_added = date_add(NOW(),interval 8 hour), 
             date_modified = date_add(NOW(),interval 8 hour)");
         $order_id = $this->db->getLastId();
+
+			if (isset($this->session->data['track_id'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "track SET or = '" . (int)$quantity . "' WHERE track_id = '" . (int)$this->session->data['track_id'] . "'");	
+			}
+			
         return $order_id;
     }
 
