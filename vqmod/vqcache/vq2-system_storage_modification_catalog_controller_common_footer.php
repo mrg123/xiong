@@ -7,13 +7,16 @@ public function addTrack(){
 	是否记录访客的会话
 	*/	
 	$add = 0;
+	$sign = $this->config->get('track_sign');
 	if (isset($this->session->data['track_id'])) {
 		$track_id = $this->session->data['track_id'];
 	} elseif (isset($this->request->cookie['track_id'])) {
 		$track_id = $this->request->cookie['track_id'];	
-	} elseif (isset($this->request->get['visitor'])) {
+		$this->session->data['track_id'] = $track_id;
+	} elseif (isset($this->request->get[$sign])) {
 		$track_id = 1;	
 		$add = 1;
+		$visitor = $this->request->get[$sign];
 	} else {
 		$track_id = 0;	
 	}
@@ -42,7 +45,7 @@ public function addTrack(){
 			
 		$session_id = $this->session->getId();
 		
-		$visitor = $this->request->get['visitor'];
+		
 		
 		$nation = '';
 		
@@ -56,12 +59,12 @@ public function addTrack(){
 		);
 		
 		/* add track */
-		$this->db->query("INSERT INTO " . DB_PREFIX . "track SET session_id = '" . $this->db->escape($tracks['session_id']) . "', visitor = '" . $this->db->escape($tracks['visitor']) . "', ip = '" . $this->db->escape($tracks['ip']) . "', nation = '" . $this->db->escape($tracks['nation']) . "', referer = '" . $this->db->escape($tracks['referer']) . "', landing_url = '" . $this->db->escape($tracks['landing_url']) . "', date_added = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "track SET session_id = '" . $this->db->escape($tracks['session_id']) . "', visitor = '" . $this->db->escape($tracks['visitor']) . "', ip = '" . $this->db->escape($tracks['ip']) . "', nation = '" . $this->db->escape($tracks['nation']) . "', referer = '" . $this->db->escape($tracks['referer']) . "', landing_url = '" . $this->db->escape($tracks['landing_url']) . "', date_added = date_add(NOW(),interval 8 hour)");
 	
 		$track_id = $this->db->getLastId();
 		
 		/* add track url*/
-		$this->db->query("INSERT INTO " . DB_PREFIX . "track_url SET track_id = '" . (int)$track_id . "', url = '" . $this->db->escape($tracks['landing_url']) . "', date = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "track_url SET track_id = '" . (int)$track_id . "', url = '" . $this->db->escape($tracks['landing_url']) . "', date = date_add(NOW(),interval 8 hour)");
 	
 		$this->session->data['track_id'] = $track_id;
 		setcookie('track_id', $track_id, time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);
@@ -74,7 +77,7 @@ public function addTrack(){
 				$url = '';
 			}
 			/* add track url*/
-		$this->db->query("INSERT INTO " . DB_PREFIX . "track_url SET track_id = '" . (int)$track_id . "', url = '" . $this->db->escape($url) . "', date = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "track_url SET track_id = '" . (int)$track_id . "', url = '" . $this->db->escape($url) . "', date = date_add(NOW(),interval 8 hour)");
 		}
 	
 	
@@ -125,7 +128,11 @@ public function addTrack(){
 		$data['config_html'] = $this->config->get('config_html');
 		
 
-$this->addTrack();
+
+			if($this->config->get('track_status')){
+				$this->addTrack();
+			}
+			
 		$this->load->model('catalog/information');
 
 		$data['informations'] = array();

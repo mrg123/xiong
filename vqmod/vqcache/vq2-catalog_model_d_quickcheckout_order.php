@@ -1,4 +1,9 @@
 <?php
+
+/*
+ *  location: admin/model
+ */
+
 class ModelDQuickcheckoutOrder extends Model {
 
     public function isCartEmpty() {
@@ -103,7 +108,19 @@ class ModelDQuickcheckoutOrder extends Model {
         $order_id = $this->db->getLastId();
 
 			if (isset($this->session->data['track_id'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "track SET or = '" . (int)$quantity . "' WHERE track_id = '" . (int)$this->session->data['track_id'] . "'");	
+				
+			$track_query = $this->db->query("SELECT order_id FROM " . DB_PREFIX . "track WHERE track_id = '" . (int)$this->session->data['track_id'] . "'");	
+		$track_order_id = $track_query->row['order_id'];
+		if($track_order_id == 0 ){
+			$track_order_ids = $order_id;	
+		}elseif ($track_order_id != $order_id){
+			$track_order_ids = $order_id . ',' . $track_order_id;	
+		}else{
+			$track_order_ids = 0;
+		}
+		if(!empty($track_order_ids)){
+		$this->db->query("UPDATE " . DB_PREFIX . "track SET order_id = '" . $this->db->escape($track_order_ids) . "' WHERE track_id = '" . (int)$this->session->data['track_id'] . "'");	
+		}
 			}
 			
         return $order_id;
