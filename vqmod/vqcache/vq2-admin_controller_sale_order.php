@@ -819,6 +819,24 @@ if(!$this->model_user_api->getIp($api_info['api_id'], $this->request->server['RE
 
 		$order_info = $this->model_sale_order->getOrder($order_id);
 
+		if($this->config->get('track_status')){
+		$this->load->model('module/track');
+		$track = $this->model_module_track->getOrderTrack($order_id);
+		if($track){
+		$track_urls = $this->model_module_track->getTrack($track['track_id']);	
+		}else{
+		$track_urls = '';
+		}
+		$data['track'] = $track;
+		$data['track_urls'] = $track_urls;
+		$data['track_status'] = 1;
+		}else{
+		$data['track'] = '';
+		$data['track_urls'] = '';	
+		$data['track_status'] = 0;
+		}
+		
+		
 		if ($order_info) {
 			$this->load->language('sale/order');
 
@@ -1470,6 +1488,24 @@ if(!$this->model_user_api->getIp($api_info['api_id'], $this->request->server['RE
 
 			$order_info = $this->model_sale_order->getOrder($order_id);
 
+		if($this->config->get('track_status')){
+		$this->load->model('module/track');
+		$track = $this->model_module_track->getOrderTrack($order_id);
+		if($track){
+		$track_urls = $this->model_module_track->getTrack($track['track_id']);	
+		}else{
+		$track_urls = '';
+		}
+		$data['track'] = $track;
+		$data['track_urls'] = $track_urls;
+		$data['track_status'] = 1;
+		}else{
+		$data['track'] = '';
+		$data['track_urls'] = '';	
+		$data['track_status'] = 0;
+		}
+		
+
 			if ($order_info && $order_info['customer_id'] && ($order_info['reward'] > 0)) {
 				$this->load->model('customer/customer');
 
@@ -1505,6 +1541,24 @@ if(!$this->model_user_api->getIp($api_info['api_id'], $this->request->server['RE
 
 			$order_info = $this->model_sale_order->getOrder($order_id);
 
+		if($this->config->get('track_status')){
+		$this->load->model('module/track');
+		$track = $this->model_module_track->getOrderTrack($order_id);
+		if($track){
+		$track_urls = $this->model_module_track->getTrack($track['track_id']);	
+		}else{
+		$track_urls = '';
+		}
+		$data['track'] = $track;
+		$data['track_urls'] = $track_urls;
+		$data['track_status'] = 1;
+		}else{
+		$data['track'] = '';
+		$data['track_urls'] = '';	
+		$data['track_status'] = 0;
+		}
+		
+
 			if ($order_info) {
 				$this->load->model('customer/customer');
 
@@ -1535,6 +1589,24 @@ if(!$this->model_user_api->getIp($api_info['api_id'], $this->request->server['RE
 			$this->load->model('sale/order');
 
 			$order_info = $this->model_sale_order->getOrder($order_id);
+
+		if($this->config->get('track_status')){
+		$this->load->model('module/track');
+		$track = $this->model_module_track->getOrderTrack($order_id);
+		if($track){
+		$track_urls = $this->model_module_track->getTrack($track['track_id']);	
+		}else{
+		$track_urls = '';
+		}
+		$data['track'] = $track;
+		$data['track_urls'] = $track_urls;
+		$data['track_status'] = 1;
+		}else{
+		$data['track'] = '';
+		$data['track_urls'] = '';	
+		$data['track_status'] = 0;
+		}
+		
 
 			if ($order_info) {
 				$this->load->model('marketing/affiliate');
@@ -1570,6 +1642,24 @@ if(!$this->model_user_api->getIp($api_info['api_id'], $this->request->server['RE
 			$this->load->model('sale/order');
 
 			$order_info = $this->model_sale_order->getOrder($order_id);
+
+		if($this->config->get('track_status')){
+		$this->load->model('module/track');
+		$track = $this->model_module_track->getOrderTrack($order_id);
+		if($track){
+		$track_urls = $this->model_module_track->getTrack($track['track_id']);	
+		}else{
+		$track_urls = '';
+		}
+		$data['track'] = $track;
+		$data['track_urls'] = $track_urls;
+		$data['track_status'] = 1;
+		}else{
+		$data['track'] = '';
+		$data['track_urls'] = '';	
+		$data['track_status'] = 0;
+		}
+		
 
 			if ($order_info) {
 				$this->load->model('marketing/affiliate');
@@ -1682,6 +1772,24 @@ if(!$this->model_user_api->getIp($api_info['api_id'], $this->request->server['RE
 
 		foreach ($orders as $order_id) {
 			$order_info = $this->model_sale_order->getOrder($order_id);
+
+		if($this->config->get('track_status')){
+		$this->load->model('module/track');
+		$track = $this->model_module_track->getOrderTrack($order_id);
+		if($track){
+		$track_urls = $this->model_module_track->getTrack($track['track_id']);	
+		}else{
+		$track_urls = '';
+		}
+		$data['track'] = $track;
+		$data['track_urls'] = $track_urls;
+		$data['track_status'] = 1;
+		}else{
+		$data['track'] = '';
+		$data['track_urls'] = '';	
+		$data['track_status'] = 0;
+		}
+		
 
 			if ($order_info) {
 				$store_info = $this->model_setting_setting->getSetting('config', $order_info['store_id']);
@@ -1922,6 +2030,24 @@ if(!$this->model_user_api->getIp($api_info['api_id'], $this->request->server['RE
 
 		foreach ($orders as $order_id) {
 			$order_info = $this->model_sale_order->getOrder($order_id);
+
+		if($this->config->get('track_status')){
+		$this->load->model('module/track');
+		$track = $this->model_module_track->getOrderTrack($order_id);
+		if($track){
+		$track_urls = $this->model_module_track->getTrack($track['track_id']);	
+		}else{
+		$track_urls = '';
+		}
+		$data['track'] = $track;
+		$data['track_urls'] = $track_urls;
+		$data['track_status'] = 1;
+		}else{
+		$data['track'] = '';
+		$data['track_urls'] = '';	
+		$data['track_status'] = 0;
+		}
+		
 
 			// Make sure there is a shipping method
 			if ($order_info && $order_info['shipping_code']) {
