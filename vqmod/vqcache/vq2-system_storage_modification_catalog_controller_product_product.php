@@ -621,6 +621,8 @@ if($this->config->get('product_push_status')){
 				} else {
 					$rating = false;
 				}
+				
+				if($result['status']){
 
 				$data['product_pushs'][] = array(
 					'product_id'  => $result['product_id'],
@@ -633,6 +635,7 @@ if($this->config->get('product_push_status')){
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				);
+				}
 			}
 		}
 }
