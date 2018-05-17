@@ -2,9 +2,8 @@
 class ControllerCommonCurrency extends Controller {
 	public function index() {
 
-		require_once("catalog/controller/product/Mobile_Detect.php");
-		$detect = new Mobile_Detect;
-		if($detect->isMobile()){
+
+		if(IS_MOBILE){
 			$data['is_mobile'] = true;
 		}else{
 			$data['is_mobile'] = false;

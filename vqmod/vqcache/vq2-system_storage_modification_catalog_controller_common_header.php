@@ -145,9 +145,8 @@ if(isset($show_logo)){
 
 		$data['text_home'] = $this->language->get('text_home');
 
-			require_once("catalog/controller/product/Mobile_Detect.php");
-		$detect = new Mobile_Detect;
-		if($detect->isMobile()){
+
+		if(IS_MOBILE){
 			$data['is_mobile'] = true;
 		}else{
 			$data['is_mobile'] = false;
@@ -401,6 +400,11 @@ if ($child['image']) {
                 
             
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/header.tpl')) {
+if(IS_MOBILE){
+                return $this->load->view($this->config->get('config_template') . '/template/common/wap_header.tpl', $data);
+            }else{
+                return $this->load->view($this->config->get('config_template') . '/template/common/header.tpl', $data);
+            }
 			return $this->load->view($this->config->get('config_template') . '/template/common/header.tpl', $data);
 		} else {
 			return $this->load->view('default/template/common/header.tpl', $data);

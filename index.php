@@ -245,6 +245,16 @@ $registry->set('encryption', new Encryption($config->get('config_encryption')));
 // OpenBay Pro
 $registry->set('openbay', new Openbay($registry));
 
+// is mobile
+require_once("Mobile_Detect.php");
+$detect = new Mobile_Detect;
+if($detect->isMobile()){
+    define('IS_MOBILE', 1);
+}else{
+    define('IS_MOBILE', 0);
+}
+
+
 // Event
 $event = new Event($registry);
 $registry->set('event', $event);
