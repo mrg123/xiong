@@ -226,6 +226,10 @@ public function addTrack(){
 			$this->model_tool_online->addOnline($ip, $this->customer->getId(), $url, $referer);
 		}
 
+if(IS_MOBILE){
+			$this->document->addStyle('catalog/view/theme/wap/css/loaders.css');
+                return $this->load->view('wap/footer.tpl', $data);
+            }
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/footer.tpl')) {
 			return $this->load->view($this->config->get('config_template') . '/template/common/footer.tpl', $data);
 		} else {

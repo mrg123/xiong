@@ -401,9 +401,7 @@ if ($child['image']) {
             
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/header.tpl')) {
 if(IS_MOBILE){
-                return $this->load->view($this->config->get('config_template') . '/template/common/wap_header.tpl', $data);
-            }else{
-                return $this->load->view($this->config->get('config_template') . '/template/common/header.tpl', $data);
+                return $this->load->view('wap/header.tpl', $data);
             }
 			return $this->load->view($this->config->get('config_template') . '/template/common/header.tpl', $data);
 		} else {
