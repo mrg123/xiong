@@ -449,12 +449,7 @@
 				
 			
 		}
-		
-
-		if(IS_MOBILE){
-			$this->response->redirect($this->url->link('product/m_category', 'path=' . $this->request->get['path'], 'SSL'));
-		}
-			
+	
 			
 			if ($category_info && $category_show) {
 			]]></add>

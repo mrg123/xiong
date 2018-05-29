@@ -15,14 +15,20 @@
 
 
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/demo.css">
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/font-awesome.min.css">
-
 <script type="text/javascript" src="catalog/view/theme/wap/js/jquery-3.2.1.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/jquery.mmenu.all.css">
 <script type="text/javascript" src="catalog/view/theme/wap/js/jquery.mmenu.all.js"></script>
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/jquery.mhead.css">
 <script type="text/javascript" src="catalog/view/theme/wap/js/jquery.mhead.js"></script>
-<script src="catalog/view/theme/wap/js/common.js" type="text/javascript"></script>
+
+<link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/font/iconfont.css">
+
+
 
 <?php foreach ($styles as $style) { ?>
 <link href="<?php echo $style['href']; ?>" type="text/css" rel="<?php echo $style['rel']; ?>" media="<?php echo $style['media']; ?>" />
@@ -39,20 +45,8 @@
 <?php echo $analytic; ?>
 <?php } ?>
 
-<style type="text/css">
-			.mh-head {
-				background: #fff;
-				color: #000;
-				border-bottom:1px solid #e5e5e5;
-			}
-			.mh-text {
-				font-size: 16px;
-				font-weight: 400;
-			}
-			.mh-head .mh-form .fa {
-				color: #000;
-			}
-		</style>
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/overload.css">
+<script src="catalog/view/theme/wap/js/common.js" type="text/javascript"></script>
 </head>
 <body class="<?php echo $class; ?>">
 
@@ -60,17 +54,25 @@
 				<span class="mh-btns-left">
 					<a class="fa fa-bars" href="#menu"></a>
 				</span>
-				<span class="mh-btns-left2"> <?php echo $currency; ?> </span>
-    <span class="mh-text"><?php echo $name; ?></span>
+				<span class="mh-btns-left2"> <a href="<?php echo $wishlist; ?>"><i class="fa fa-heart"></i></a> </span>
+				<span class="mh-btns-left3"> <?php echo $currency; ?> </span>
+    <span class="mh-text">
+	
+		<a href="<?php echo $home; ?>">
+		
+		<img src="catalog/view/theme/wap/logo.png" alt="<?php echo $name; ?>"/>
+		</a>
+	
+	</span>
     <span class="mh-btns-right">
 					<a class="fa fa-shopping-cart" href="#shoppingbag"></a>
 				</span>
   </div>
-  <div class="mh-head second">
-    <form class="mh-form">
-      <input placeholder="search" />
-      <a href="#/" class="fa fa-search"></a>
-    </form>
+  <div class="mh-head second" id="search">
+    <div class="mh-form">
+      <input placeholder="search" name="search" value="" />
+      <a href="javascript:void(0)" class="fa fa-search"></a>
+    </div>
   </div>
 
   <nav id="menu">
@@ -92,59 +94,11 @@
 	<?php } ?>
 	<?php } ?>
 	
-	<li><a href="#/">Home</a></li>
-					<li><span>About us</span>
-						<ul>
-							<li><a href="#/about/history">History</a></li>
-							<li><span>The team</span>
-								<ul>
-									<li><a href="#/about/team/management">Management</a></li>
-									<li><a href="#/about/team/sales">Sales</a></li>
-									<li><a href="#/about/team/development">Development</a></li>
-								</ul>
-							</li>
-							<li><a href="#/about/address">Our address</a></li>
-						</ul>
-					</li>
-					<li><a href="#/contact">Contact</a></li>
-	<li><a href="#/">Home</a></li>
-					<li><span>About us</span>
-						<ul>
-							<li><a href="#/about/history">History</a></li>
-							<li><span>The team</span>
-								<ul>
-									<li><a href="#/about/team/management">Management</a></li>
-									<li><a href="#/about/team/sales">Sales</a></li>
-									<li><a href="#/about/team/development">Development</a></li>
-								</ul>
-							</li>
-							<li><a href="#/about/address">Our address</a></li>
-						</ul>
-					</li>
-					<li><a href="#/contact">Contact</a></li>
-	<li><a href="#/">Home</a></li>
-					<li><span>About us</span>
-						<ul>
-							<li><a href="#/about/history">History</a></li>
-							<li><span>The team</span>
-								<ul>
-									<li><a href="#/about/team/management">Management</a></li>
-									<li><a href="#/about/team/sales">Sales</a></li>
-									<li><a href="#/about/team/development">Development</a></li>
-								</ul>
-							</li>
-							<li><a href="#/about/address">Our address</a></li>
-						</ul>
-					</li>
-					<li><a href="#/contact">Contact</a></li>
+		
 		<div class="mmenu-footer">
-			Delivery Information | Privacy Policy | Terms & Conditions
+			<i class="fa fa-phone"></i><?php echo $telephone; ?>
 		</div>
-		<div class="mmenu-footer">
-			<a href="javascript:;">
-				<i class="fa fa-phone"></i><?php echo $telephone; ?>
-			</a>
-		</div>
+	
     </ul>
 	
   </nav>

@@ -1,5 +1,120 @@
 <?php
 class ControllerProductCategory extends Controller {
+
+public function down(){
+	$this->load->language('product/category');
+	$data['json'] = array();
+	
+		if (isset($this->request->get['filter'])) {
+			$filter = $this->request->get['filter'];
+		} else {
+			$filter = '';
+		}
+
+		if (isset($this->request->get['sort'])) {
+			$sort = $this->request->get['sort'];
+		} else {
+			$sort = 'p.sort_order';
+		}
+
+		if (isset($this->request->get['order'])) {
+			$order = $this->request->get['order'];
+		} else {
+			$order = 'ASC';
+		}
+
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+		} else {
+			$page = 1;
+		}
+
+		if (isset($this->request->get['limit'])) {
+			$limit = (int)$this->request->get['limit'];
+		} else {
+			$limit = $this->config->get('config_product_limit');
+		}
+
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+		} 
+		
+		if (isset($this->request->get['child_id'])) {
+			$category_id = $this->request->get['child_id'];
+		} 
+		
+		if (isset($this->request->get['child_id']) && isset($this->request->get['page'])) {
+			$this->load->model('catalog/product');
+			$this->load->model('tool/image');
+			
+			$filter_data = array(
+				'filter_category_id' => $category_id,
+				'filter_sub_category' => true,
+				'filter_filter'      => $filter,
+				'sort'               => $sort,
+				'order'              => $order,
+				'start'              => ($page - 1) * $limit,
+				'limit'              => $limit
+			);
+
+			$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
+
+			$results = $this->model_catalog_product->getProducts($filter_data);
+
+			foreach ($results as $result) {
+				if ($result['image']) {
+					$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+				} else {
+					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+				}
+				
+				if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
+					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+				} else {
+					$price = false;
+				}
+
+				if ((float)$result['special']) {
+					$special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')));
+				} else {
+					$special = false;
+				}
+
+				if ($this->config->get('config_tax')) {
+					$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price']);
+				} else {
+					$tax = false;
+				}
+
+				if ($this->config->get('config_review_status')) {
+					$rating = (int)$result['rating'];
+				} else {
+					$rating = false;
+				}
+
+				$json[] = array(
+					'product_id'  => $result['product_id'],
+					'thumb'       => $image,
+					'name'        => $result['name'],
+					'price'       => $price,
+					'special'     => $special,
+					'tax'         => $tax,
+					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
+					'rating'      => $result['rating'],
+					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+				);
+			}
+			
+		}
+		
+		if(empty($json)){
+			$json['error'] = $this->language->get('text_empty');
+		}
+		
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+}
+			
 	public function index() {
 		$this->load->language('product/category');
 
@@ -88,6 +203,7 @@ class ControllerProductCategory extends Controller {
 		}
 
 		$category_info = $this->model_catalog_category->getCategory($category_id);
+$data['category_id'] = $category_id;
 
 		
 			
@@ -174,12 +290,7 @@ class ControllerProductCategory extends Controller {
 				
 			
 		}
-		
-
-		if(IS_MOBILE){
-			$this->response->redirect($this->url->link('product/m_category', 'path=' . $this->request->get['path'], 'SSL'));
-		}
-			
+	
 			
 			if ($category_info && $category_show) {
 			
@@ -283,7 +394,13 @@ if ($result['image']) {
 
 			foreach ($results as $result) {
 				if ($result['image']) {
-					$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+					
+			if(IS_MOBILE){
+				$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+			}else{
+				$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+			}
+			
 				} else {
 					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
 				}
@@ -477,7 +594,11 @@ if ($result['image']) {
 			$data['header'] = $this->load->controller('common/header');
 
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/category.tpl')) {
+				if(IS_MOBILE){
+				$this->response->setOutput($this->load->view('wap/category.tpl', $data));
+			}else{
 				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/product/category.tpl', $data));
+			}
 			} else {
 				$this->response->setOutput($this->load->view('default/template/product/category.tpl', $data));
 			}

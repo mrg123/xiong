@@ -215,7 +215,13 @@ class ControllerProductSearch extends Controller {
 
 			foreach ($results as $result) {
 				if ($result['image']) {
-					$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+					
+			if(IS_MOBILE){
+				$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+			}else{
+				$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+			}
+			
 				} else {
 					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
 				}
@@ -535,7 +541,11 @@ $vip = 0;
 		$data['header'] = $this->load->controller('common/header');
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/search.tpl')) {
-			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/product/search.tpl', $data));
+			if(IS_MOBILE){
+                $this->response->setOutput($this->load->view('wap/search.tpl', $data));
+			}else{
+				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/product/search.tpl', $data));
+			}
 		} else {
 			$this->response->setOutput($this->load->view('default/template/product/search.tpl', $data));
 		}

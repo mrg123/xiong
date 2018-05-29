@@ -1,0 +1,169 @@
+a, a:link, a:active, a:visited, a:hover
+{
+	color: #222;
+	text-decoration: none;
+}
+.price-new{
+	color:red;
+	font-weight:bold;
+	font-size:16px;
+	float:right;
+}
+.price-old{
+	text-decoration: line-through;	
+	font-size:16px;
+	float:right;
+	margin-right: 5px;
+}
+.product-layout{
+margin-bottom:20px;
+font-size:16px;
+}
+.dropload-noData{
+padding: 0 .4rem;
+
+margin: .4rem 0;
+
+line-height: 1px;
+
+font-size: 28px;
+
+border-left: 15rem solid #ccc;
+
+border-right: 15rem solid #ccc;
+
+text-align: center;
+
+color: #222;
+}
+
+/* mm-menu */
+.mh-head {
+	background: #fff;
+	color: #222;
+	border-bottom: 1px solid #e5e5e5;
+	font-weight:400;
+}
+.mh-head .mh-btns-left > *, .mh-head .mh-btns-right > * {
+font-size:20px;
+}
+
+.mh-text {
+	font-size: 16px;
+	font-weight: 400;
+}
+.mh-text img{
+margin-top: -9px;
+height: 38px;	
+}
+
+.mm-menu {
+	background-color: #fff;
+}
+
+.mm-listview {
+	line-height: 33px;
+	font-weight: 700;
+}
+.mh-head.first{
+z-index:11;
+}
+nav:not(.mm-menu)
+{
+	display: none;
+}
+
+.mmenu-footer{
+	text-align: center;
+font-size: 20px;
+margin: 10px 0;
+font-weight: 400;
+}
+.mmenu-footer a {
+margin: 5px auto;
+font-size:12px;
+font-weight:400;
+}
+.mh-btns-left2{
+	display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+	line-height:40px;
+	right:50px;
+}
+.mh-btns-left3{
+	display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+	line-height:40px;
+	left:50px;
+}
+/* end mm-menu */
+	
+/* currency */
+#currency .btn-link {
+    color: #222;
+    text-shadow: 0 1px 0 #FFF;
+    text-decoration: none;
+}
+#currency .btn-group .dropdown-menu{
+    font-size: 12px;
+	top: 70%;
+}
+#currency .currency-select {
+    text-align: left;
+}
+#currency .dropdown-toggle{
+padding: 0;
+font-size: 16px;
+line-height: 40px;
+
+}
+#currency .dropdown-toggle strong{
+font-weight:400;
+}
+/* end currency */
+	
+/* 字体图标 */
+.mh-head .mh-form .fa{
+color: rgba(0,0,0,.3);
+}
+.fa {
+    font-family: "iconfont" !important;
+    font-size: 20px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.fa-bars::before{
+	    content: "\e715";
+}
+.fa-heart::before{
+	content: "\e63b";	
+}
+.fa-shopping-cart::before{
+	content: "\e645"; 
+	/* content: "\e684"; 购物袋 */
+}
+.fa-phone::before{
+	content: "\e627";
+}
+.fa-caret-down::before{
+	content: "\e62d";
+font-size:10px;
+}
+.fa-envelope::before{
+    content: "\e623";	
+}
+.fa-twitter::before{
+content: "\ecb3";	
+}
+.fa-facebook::before{
+content: "\e77a";	
+}
+.fa-search::before{
+    content: "\e714";	
+}
+/* end 字体图标*/

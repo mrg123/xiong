@@ -227,7 +227,6 @@ public function addTrack(){
 		}
 
 if(IS_MOBILE){
-			$this->document->addStyle('catalog/view/theme/wap/css/loaders.css');
                 return $this->load->view('wap/footer.tpl', $data);
             }
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/footer.tpl')) {
