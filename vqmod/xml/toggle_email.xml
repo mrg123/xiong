@@ -4,16 +4,293 @@
     <version>1</version>
     <vqmver>2.4.1</vqmver>
     <author>wang</author>
-
-    <file name="catalog/model/checkout/order.php">		
+	
+	<file name="admin/controller/customer/customer.php">
 		<operation>
-			<search position="after"><![CDATA[$data['logo'] = $this->config->get('config_url') . 'image/' . $this->config->get('config_logo');]]></search>
+			<search position="after" index="2"><![CDATA[$data['token'] = $this->session->data['token'];]]></search>
 			<add><![CDATA[
-			/* 判断是否开启toggle 更换logo */
+			/* to_email */
+		$data['active'] = [];
+	if($this->config->get('product_toggle_email')&&isset($this->request->get['customer_id'])&&$this->request->get['customer_id']!=0){
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "active WHERE customer_id = '" . (int)($this->request->get['customer_id']) . "'");
+		$result = $query->row;	
+	if(!empty($result)){
+		$data['active'] = $result;
+	}
+	}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="admin/view/template/customer/customer_form.tpl">
+		<operation>
+			<search position="after" index="1"><![CDATA[<div class="tab-pane" id="tab-history">]]></search>
+			<add><![CDATA[
+			<?php if($active){ ?>
+			  <div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <td class="text-left">Active email</td>
+        <td class="text-left">Date Added</td>
+        <td class="text-left">Active Status</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><?php echo $active['email']; ?></td>
+        <td><?php echo $active['date_added']; ?></td>
+        <td><?php echo $active['status']; ?></td>
+      </tr>
+          </tbody>
+  </table>
+</div>
+			<?php } ?>
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="admin/controller/module/product_toggle.php">
+		<operation>
+			<search position="before"><![CDATA[public function install(){]]></search>
+			<add><![CDATA[
+			public function active(){
+		$this->db->query("
+CREATE TABLE IF NOT EXISTS `oc_active` (
+  `active_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `salt` varchar(40) NOT NULL,
+  `email` varchar(96) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `code1` varchar(255) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`active_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+		");
+	}
+			
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before" index="1"><![CDATA[$this->model_setting_setting->editSetting('product_toggle', $this->request->post);]]></search>
+			<add><![CDATA[
+			if($this->request->post['product_toggle_email']==1){
+				$this->active();
+			}
+			]]></add>
+		</operation>
+		
+		<operation>
+			<search position="before" index="1"><![CDATA[if (isset($this->request->post['product_toggle_status'])) {]]></search>
+			<add><![CDATA[
+			if (isset($this->request->post['product_toggle_email'])) {
+			$data['product_toggle_email'] = $this->request->post['product_toggle_email'];
+		} else {
+			$data['product_toggle_email'] = $this->config->get('product_toggle_email');
+		}
+			
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="admin/view/template/module/product_toggle.tpl">
+		<operation>
+			<search position="after" index="1"><![CDATA[<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-product-toggle" class="form-horizontal">]]></search>
+			<add><![CDATA[
+			<div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">Email Toggle</label>
+            <div class="col-sm-10">
+              <select name="product_toggle_email" class="form-control">
+                <?php if ($product_toggle_email) { ?>
+                <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                <option value="0"><?php echo $text_disabled; ?></option>
+                <?php } else { ?>
+                <option value="1"><?php echo $text_enabled; ?></option>
+                <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
+			
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/account/register.php">
+		<operation>
+			<search position="after" index="1"><![CDATA[private $error = array();]]></search>
+			<add><![CDATA[
+public function addemail() {
+		$json = array();
+		$json['state'] = 0;
+		$json['message'] = '';
+		
+		$this->load->language('account/register');
+		$email = $this->request->post['email'];
+		if ((utf8_strlen($email) > 96) || !preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $email)) {
+			$json['message'] = $this->language->get('error_email');
+			
+			}else{
+				
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "active WHERE email = '" . $this->db->escape($email) . "'");
+				$result = $query->row;
+			if($result){
+				$json['state'] = 1;	
+				
+				/* 已激活的賬號 */
+				if($result['status'] ==1){
+					$json['state'] = 2;	
+					
+				if(isset($this->session->data['active_email']) && isset($this->session->data['active_status'])){
+
+				}else{
+					$this->session->data['active_email'] = $result['email']; 
+					$this->session->data['active_status'] = 1; 
+					
+					if(isset($_COOKIE['active_email']) && isset($_COOKIE['active_status'])){
+			
+					}else{
+			setcookie('active_email', $result['email'] , time() + 60 * 60 * 24 * 30 * 12 * 10, '/' ,$this->request->server['HTTP_HOST']);
+			setcookie('active_status', '1' , time() + 60 * 60 * 24 * 30 * 12 * 10, '/' ,$this->request->server['HTTP_HOST']);	
+					}
+				}
+					}else{
+						$this->load->language('module/d_quickcheckout');
+		$subject = sprintf($this->language->get('text_subject'), html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+		
+		if ($this->request->server['HTTPS']) {
+			if(isset($_SERVER['SERVER_NAME'])){
+			$server = 'https://' . $_SERVER['SERVER_NAME'].'/';
+		}else{
+			$server = $this->config->get('config_ssl');
+		}
+		} else {
+			if(isset($_SERVER['SERVER_NAME'])){
+			$server = 'http://' . $_SERVER['SERVER_NAME'].'/';
+		}else{
+			$server = $this->config->get('config_url');
+		}
+		}
+
+		$message = $this->language->get('text_welcome') . "\n\n";
+		$message .= $this->language->get('text_login') . "\n";
+		$message .= '<a target="_blank" href="'.$server . 'index.php?route=account/register/valemail&c=' . $result['code'] . '">'.$server . 'index.php?route=account/register/valemail&c=' . $result['code'] .'</a>'. "\n\n";
+		$message .= $this->language->get('text_thanks') . "\n";
+		$message .= html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+
+		$mail = new Mail();
+		$mail->protocol = $this->config->get('config_mail_protocol');
+		$mail->parameter = $this->config->get('config_mail_parameter');
+		$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
+		$mail->smtp_username = $this->config->get('config_mail_smtp_username');
+		$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
+		$mail->smtp_port = $this->config->get('config_mail_smtp_port');
+		$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
+
+		$mail->setTo($email);
+		$mail->setFrom($this->config->get('config_email'));
+		$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+		$mail->setSubject($subject);
+		$mail->setText($message);
+		$mail->send();	
+		$json['state'] = 1;	
+					}
+			}else{
+				$salt = token(9);
+		$code = sha1($salt . $email);
+		$code1 = '';
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "active SET customer_id = '0', salt = '" . $this->db->escape($salt) . "', email = '" . $this->db->escape($email) . "', code = '" . $this->db->escape($code) . "', code1 = '" . $this->db->escape($code1) . "', date_added = NOW(), status = '0'");
+		
+		$active_id = $this->db->getLastId();
+	
+		$this->load->language('module/d_quickcheckout');
+		$subject = sprintf($this->language->get('text_subject'), html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+		
+		if ($this->request->server['HTTPS']) {
+			if(isset($_SERVER['SERVER_NAME'])){
+			$server = 'https://' . $_SERVER['SERVER_NAME'].'/';
+		}else{
+			$server = $this->config->get('config_ssl');
+		}
+		} else {
+			if(isset($_SERVER['SERVER_NAME'])){
+			$server = 'http://' . $_SERVER['SERVER_NAME'].'/';
+		}else{
+			$server = $this->config->get('config_url');
+		}
+		}
+
+		$message = $this->language->get('text_welcome') . "\n\n";
+		$message .= $this->language->get('text_login') . "\n";
+		$message .= '<a target="_blank" href="'.$server . 'index.php?route=account/register/valemail&c=' . $code . '">'.$server . 'index.php?route=account/register/valemail&c=' . $code.'</a>'. "\n\n";
+		$message .= $this->language->get('text_thanks') . "\n";
+		$message .= html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+
+		$mail = new Mail();
+		$mail->protocol = $this->config->get('config_mail_protocol');
+		$mail->parameter = $this->config->get('config_mail_parameter');
+		$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
+		$mail->smtp_username = $this->config->get('config_mail_smtp_username');
+		$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
+		$mail->smtp_port = $this->config->get('config_mail_smtp_port');
+		$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
+
+		$mail->setTo($email);
+		$mail->setFrom($this->config->get('config_email'));
+		$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+		$mail->setSubject($subject);
+		$mail->setText($message);
+		$mail->send();	
+		$json['state'] = 1;	
+			}
+		}
+		
+		
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function valemail(){
+		$code = $this->request->get['c'];
+		$this->load->language('module/d_quickcheckout');
+		
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "active WHERE code = '" . $this->db->escape($code) . "'");
+		$result = $query->row;
+		$data['state'] = 0;
+		$email = '';
+		
+		if($result){
+			$email = $result['email'];
+			$this->db->query("UPDATE " . DB_PREFIX . "active SET status = '1' WHERE code = '" . $this->db->escape($code) . "'");
+			$this->session->data['active_email'] = $result['email']; 
+			$this->session->data['active_status'] = 1; 
+			setcookie('active_email', $result['email'] , time() + 60 * 60 * 24 * 30 * 12 * 10, '/' ,$this->request->server['HTTP_HOST']);
+			setcookie('active_status', '1' , time() + 60 * 60 * 24 * 30 * 12 * 10, '/' ,$this->request->server['HTTP_HOST']);	
+			$data['state'] = 1;
+		}
+		
+		if($data['state']){
+			$data['message'] = $this->language->get('active_success');	
+		 	$data['url'] = $this->url->link('checkout/checkout', 'code='.$code, 'SSL'); 
+		}else{
+			$data['message'] = $this->language->get('active_error');	
+			$data['url'] = $this->url->link('common/home', '', 'SSL'); 
+		}
+		$data['text_jump'] = $this->language->get('text_jump');
+
+		$data['active_title'] = $this->language->get('active_title');
+		$data['active_message'] = sprintf($this->language->get('active_message'),$email);
+
+
+
+		/* 判断是否开启toggle 更换logo */
+		$show_logo = 0;
 			if($this->config->get('product_toggle_status')){
 			$vip = 0;
-		if ($this->config->get('customer_toggle_status')) {
-				$customer_id = $order_info['customer_id'];
+		if ($this->config->get('customer_toggle_status') && $this->customer->isLogged()) {
+				$customer_id = $this->customer->getId();
 				$this->load->model('module/customer_toggle');
 				$customer_toggle = $this->model_module_customer_toggle->getToggleByCustomerId($customer_id);
 				if($customer_toggle){
@@ -50,6 +327,259 @@
 		}else{
 			$show_logo = 1;	
 		}	
+			}
+		if ($this->request->server['HTTPS']) {
+			if(isset($_SERVER['SERVER_NAME'])){
+			$server = 'https://' . $_SERVER['SERVER_NAME'].'/';
+		}else{
+			$server = $this->config->get('config_ssl');
+		}
+		} else {
+			if(isset($_SERVER['SERVER_NAME'])){
+			$server = 'http://' . $_SERVER['SERVER_NAME'].'/';
+		}else{
+			$server = $this->config->get('config_url');
+		}
+		}
+		if(!$show_logo){
+			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');
+		}else{
+			$data['logo'] = $server . 'image/' . $this->config->get('product_toggle_logo');	
+		}
+		
+		
+		$this->response->setOutput($this->load->view('default/template/account/active.tpl', $data));
+			
+	}
+	
+			
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/d_quickcheckout/confirm.php">
+		<operation>
+			<search position="after" index="1"><![CDATA[public function index($config){]]></search>
+			<add><![CDATA[
+			/* to_email */
+		/* 判断是否开启toggle 更换logo */
+		$show_logo = 0;
+			if($this->config->get('product_toggle_status')){
+			$vip = 0;
+		if ($this->config->get('customer_toggle_status') && $this->customer->isLogged()) {
+				$customer_id = $this->customer->getId();
+				$this->load->model('module/customer_toggle');
+				$customer_toggle = $this->model_module_customer_toggle->getToggleByCustomerId($customer_id);
+				if($customer_toggle){
+					if($customer_toggle['toggle']){
+						/* 有参数正确,仿品可见*/
+						$vip = 1;
+					}else{
+						/* 为 0*/
+						$vip = 0;
+					}
+				}else{
+					/* NULL */
+					$vip = 0;
+				}
+		}
+			
+		if (!isset($this->request->cookie['toggle']) && !$vip) {
+		
+			if(isset($this->request->get[strtolower($this->config->get('product_toggle_parameter'))]) || isset($this->request->get[strtoupper($this->config->get('product_toggle_parameter'))])){
+						/* 有参数正确,仿品可见,设置session */
+						
+						if($this->config->get('product_toggle_expire')){
+							$expire = $this->config->get('product_toggle_expire');
+							setcookie('toggle', '1' , time() + 60 * 60 * 24 * $expire, '/' ,$this->request->server['HTTP_HOST']);
+						}else{
+							setcookie('toggle', '1' , time() + 60 * 60 * 24 * 30 * 12 * 10, '/' ,$this->request->server['HTTP_HOST']);
+						}
+						$show_logo = 1;
+						
+					}else{
+						/* 无参数 */
+					}
+			
+		}else{
+			$show_logo = 1;	
+		}	
+			}
+		if ($this->request->server['HTTPS']) {
+			if(isset($_SERVER['SERVER_NAME'])){
+			$server = 'https://' . $_SERVER['SERVER_NAME'].'/';
+		}else{
+			$server = $this->config->get('config_ssl');
+		}
+		} else {
+			if(isset($_SERVER['SERVER_NAME'])){
+			$server = 'http://' . $_SERVER['SERVER_NAME'].'/';
+		}else{
+			$server = $this->config->get('config_url');
+		}
+		}
+		if(!$show_logo){
+			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');
+		}else{
+			$data['logo'] = $server . 'image/' . $this->config->get('product_toggle_logo');	
+		}
+		$data['te_prompt1'] = $this->language->get('te_prompt1');
+		$data['te_prompt2'] = $this->language->get('te_prompt2');
+		$data['te_prompt3'] = $this->language->get('te_prompt3');
+		$data['te_register'] = $this->language->get('te_register');
+		$data['te_login'] = $this->language->get('te_login');
+		$data['te_remind1'] = $this->language->get('te_remind1');
+		$data['te_remind0'] = $this->language->get('te_remind0');
+		$data['te_agree'] = $this->language->get('te_agree');
+		$data['te_email_error'] = $this->language->get('te_email_error');
+		$this->load->model('catalog/information');
+		$information_info = $this->model_catalog_information->getInformation($this->config->get('config_checkout_id'));
+		$data['te_agree_url'] = $this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id'), 'SSL');
+		$data['te_agree_title'] = $information_info['title'];
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/d_quickcheckout/payment_address.php">
+		<operation>
+			<search position="before" index="1"><![CDATA[$data['json'] = json_encode($json);]]></search>
+			<add><![CDATA[
+// to email
+		if($this->config->get('product_toggle_email')){	
+			if(isset($this->session->data['active_email']) && isset($this->session->data['active_status'])){
+				$json['payment_address']['email'] = $json['payment_address']['email_confirm'] = $this->session->data['active_email'];
+				$json['payment_address']['agree'] = 1;
+				$json['payment_address']['shipping_address'] = 1;
+			}else{
+				if(isset($_COOKIE['active_email']) && isset($_COOKIE['active_status'])){
+				$json['payment_address']['email'] = $json['payment_address']['email_confirm'] = $_COOKIE['active_email'];
+				$json['payment_address']['agree'] = 1;
+				$json['payment_address']['shipping_address'] = 1;
+				}
+			}
+		}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/module/d_quickcheckout.php">
+		<operation>
+			<search position="after" index="1"><![CDATA[$this->initialize();]]></search>
+			<add><![CDATA[
+		/* to_email */
+		if($this->config->get('product_toggle_email') && !$this->customer->isLogged()){	
+			if(isset($this->session->data['active_email']) && isset($this->session->data['active_status'])){
+
+			}else{
+				if(isset($_COOKIE['active_email']) && isset($_COOKIE['active_status'])){
+			
+				}else{
+				$this->session->data['redirect'] = $this->url->link('checkout/checkout', '', 'SSL');	
+				$this->document->addStyle('catalog/view/javascript/toggle_email/jquery-ui.css');
+				$this->document->addScript('catalog/view/javascript/toggle_email/jquery-ui.min.js');
+				$this->document->addScript('catalog/view/javascript/toggle_email/t_e.js');	
+				}
+			}
+		}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/model/account/customer.php">
+		<operation>
+			<search position="after" index="1"><![CDATA[$customer_id = $this->db->getLastId();]]></search>
+			<add><![CDATA[
+			/* to_email */
+		if($this->config->get('product_toggle_email')){	
+			$active_email = '';
+			if(isset($this->session->data['active_email'])){
+				$active_email = $this->session->data['active_email'];
+			}else{
+				if(isset($_COOKIE['active_email'])){
+				$active_email = $_COOKIE['active_email'];
+				}
+			}
+				if($active_email==$data['email']){
+					$this->db->query("UPDATE " . DB_PREFIX . "active SET customer_id = '".$customer_id."' WHERE email = '" . $this->db->escape($active_email) . "'");
+				}
+		}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/view/theme/default/template/d_quickcheckout/confirm.tpl">
+		<operation>
+			<search position="before" index="1"><![CDATA[<div id="confirm_view" class="qc-step" data-col="<?php echo $col; ?>" data-row="<?php echo $row; ?>"></div>]]></search>
+			<add><![CDATA[
+<!-- ui-dialog -->
+<div id="to_email-dialog" title="Dialog Title" style="display:none;">
+	<p><img src="<?php echo $logo; ?>" /></p>	
+	<div class="step1">
+	<p class="prompt"><?php echo $te_prompt1; ?></p>
+	<p><input type="email" id="to_email" class="form-control" error="<?php echo $te_email_error; ?>" placeholder="Email"/></p>
+	<p><input type="button" value="<?php echo $te_register; ?>" id="to_continue" state="1" class="btn btn-success form-control" remind1="<?php echo $te_remind1; ?>" remind0="<?php echo $te_remind0; ?>" register="<?php echo $te_register; ?>" login="<?php echo $te_login; ?>" /></p>
+	<div>
+	<p>
+	<input type="checkbox" id="to_agree" value="1" notice="<?php echo $te_agree; ?><?php echo $te_agree_title; ?>"/>
+	<?php echo $te_agree; ?><a href="<?php echo $te_agree_url; ?>" class="to_agree agree"><span><?php echo $te_agree_title; ?></span></a>
+	</p>
+	</div>
+	</div>	
+	<div class="step2">
+		<p class="prompt"><?php echo $te_prompt2; ?></p>
+		<p class="prompt"><?php echo $te_prompt3; ?></p>
+	</div>	
+	<a href="index.php?route=account/login" class="remind"><?php echo $te_remind0; ?></a>
+</div>
+			]]></add>
+		</operation>
+	</file>
+	
+    <file name="catalog/model/checkout/order.php">		
+		<operation>
+			<search position="after"><![CDATA[$data['logo'] = $this->config->get('config_url') . 'image/' . $this->config->get('config_logo');]]></search>
+			<add><![CDATA[
+			/* 判断是否开启toggle 更换logo */
+			if($this->config->get('product_toggle_status')){
+			$vip = 0;
+		if ($this->config->get('customer_toggle_status')) {
+				$customer_id = $order_info['customer_id'];
+				$this->load->model('module/customer_toggle');
+				$customer_toggle = $this->model_module_customer_toggle->getToggleByCustomerId($customer_id);
+				if($customer_toggle){
+					if($customer_toggle['toggle']){
+						/* 有参数正确,仿品可见*/
+						$vip = 1;
+					}else{
+						/* 为 0*/
+						$vip = 0;
+					}
+				}else{
+					/* NULL */
+					$vip = 0;
+				}
+		}
+			
+		if (!isset($_COOKIE['toggle']) && !$vip) {
+		
+			if(isset($this->request->get[strtolower($this->config->get('product_toggle_parameter'))]) || isset($this->request->get[strtoupper($this->config->get('product_toggle_parameter'))])){
+						/* 有参数正确,仿品可见,设置session */
+						
+						if($this->config->get('product_toggle_expire')){
+							$expire = $this->config->get('product_toggle_expire');
+							setcookie('toggle', '1' , time() + 60 * 60 * 24 * $expire, '/' ,$this->request->server['HTTP_HOST']);
+						}else{
+							setcookie('toggle', '1' , time() + 60 * 60 * 24 * 30 * 12 * 10, '/' ,$this->request->server['HTTP_HOST']);
+						}
+						$show_logo = 1;
+						
+					}else{
+						/* 无参数 */
+					}
+			
+		}else{
+			$show_logo = 1;	
+		}	
 		
 		if(isset($show_logo)){
 					$data['logo'] = $this->config->get('config_url') . 'image/' . $this->config->get('product_toggle_logo');
@@ -60,4 +590,47 @@
 		</operation>
     </file>	
 
+	<file name="catalog/controller/account/login.php">
+		<operation>
+			<search position="replace"><![CDATA[unset($this->session->data['redirect']);]]></search>
+			<add><![CDATA[]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[$this->event->trigger('post.customer.login');]]></search>
+			<add><![CDATA[
+			if (isset($this->session->data['redirect'])) {
+			
+			$this->response->redirect($this->session->data['redirect']);
+			unset($this->session->data['redirect']);
+			}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/language/english/module/d_quickcheckout.php">
+		<operation>
+			<search position="before" index="1"><![CDATA[$_['title_payment_address']]]></search>
+			<add><![CDATA[
+$_['te_prompt1'] = '请先注册成为我们的会员,才能够享受相应得服务!';
+$_['te_prompt2'] = '已经发送会员激活码到您的邮箱,请查收';
+$_['te_prompt3'] = '有任何问题可以联系我们的客服';
+$_['te_register'] = '注册';
+$_['te_login'] = '登录';
+$_['te_remind1'] = '还不是会员? 免费<span>注册</span>';
+$_['te_remind0'] = '已经是会员了,<span>登录</span>';
+$_['te_agree'] = '请阅读并同意';
+$_['te_email_error'] = '邮箱格式不正确';
+$_['text_subject']        = '%s - Active Email';
+$_['text_welcome']        = 'Welcome and thank you for registering';
+$_['text_login']          = 'Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:';
+$_['text_approval']       = 'Your account must be approved before you can login. Once approved you can log in by using your email address and password by visiting our website or at the following URL:';
+$_['text_thanks']         = 'Thanks,';
+$_['active_error']         = '激活失败,请重试激活';
+$_['active_success']         = '激活成功';
+$_['text_jump']         = 'Auto jump waiting:';
+$_['active_title']         = '激活邮箱';
+$_['active_message']         = '恭喜您成功激活了%s非常感谢您的激活';
+			]]></add>
+		</operation>
+	</file>
 </modification>
