@@ -7,8 +7,9 @@
 
     <file name="catalog/controller/product/product.php">
         <operation info="product to toggle and customer to toggle and language to toggle">
-            <search position="before"><![CDATA[$this->load->model('catalog/product');]]></search>
+            <search position="before" index="1"><![CDATA[$this->load->model('catalog/product');]]></search>
             <add trim="true"><![CDATA[
+
 			if($this->config->get('product_toggle_status') && $product_id){
 
 			

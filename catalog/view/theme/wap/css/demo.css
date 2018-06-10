@@ -35,12 +35,10 @@ p
 {
 	margin: 0 0 10px 0;
 }
-a, a:link, a:active, a:visited, a:hover
-{
-	color: #222;
-	text-decoration: none;
+ul{
+    padding:0;
+    list-style-type:none;
 }
-
 .hidden-xs,.hidden-sm,.hidden-md,.hide{
 	display:none;
 }
@@ -56,6 +54,12 @@ a, a:link, a:active, a:visited, a:hover
 font-size: 12px;
 
 padding: 10px;
+}
+.container{
+    padding-top:20px;
+}
+.common-home .container{
+    padding-top:0;
 }
 
 /* lastest */

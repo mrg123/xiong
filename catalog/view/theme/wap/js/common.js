@@ -1,6 +1,6 @@
 $(function() {
     //	create the menus
-	
+	var js_url = $('#js_url');
     $('#menu').mmenu({
 //navbar : false, // 隐藏头部的导航
 		"slidingSubmenus": true,  // false 向下展开, true向右展开
@@ -24,6 +24,9 @@ $(function() {
         navbar: {
             title: 'Shopping Cart'
         },
+        extensions: [
+            "pagedim-black"		// 展开,右侧加黑影
+        ],
         offCanvas: {
             position: 'right'
         }
@@ -38,6 +41,107 @@ $(function() {
     $('.mh-head.second').mhead({
         scroll: true
     });
+
+    var api = $('#shoppingbag').data('mmenu');
+    var validate = true;
+    api.bind('open:start', function () {
+		var url = 'index.php?route=common/cart/get_cart';
+        if(validate) {
+            $.ajax({
+                type: 'post',
+                url: url,
+				beforeSend: function(){
+                validate = false;
+                var loading = '<div class="mm-navbar"><a class="mm-title">Loading...</a></div>';
+                loading += '<div class="loaders"><div class="loader"> <div class="loader-inner ball-pulse"> <div></div> <div></div> <div></div> </div> </div> </div>';
+                    $('#bag-content').html(loading);
+				},
+                dataType: 'json',
+				complete: function(){
+					validate = true;
+				},
+                success: function (json) {
+
+var _html = '<div class="mm-navbar"><a class="mm-title">Shopping Cart</a></div>';
+					if(json.state){
+                        _html += '<div class="btn-group btn-block"> <ul id="cart">';
+$.each(json.products,function(k,v){
+    _html += '<li>';
+    _html += '<a href="'+v.href+'">';
+    _html += '<img src="'+v.thumb+'" width="80" />';
+    _html += '</a>';
+    _html += '<div class="del" id="'+v.cart_id+'"><i class="icon iconfont icon-lajitong"></i></div><div class="price">';
+    _html += '<p>'+v.name+'</p>';
+    _html += '<span class="price-new">'+v.price+'</span>';
+    _html += '</div><div class="info"><span class="numless"> </span><span class="numqty"><input name="quantity" value="'+v.quantity+'" size="2" class="input-quantity" type="text" readonly ></span><span class="numadd"> </span></div></li>';
+});
+						_html += '<div class="col-xs-12" id="cart-checkout"><div class="col-xs-6 total">'+json.total+'</div><div class="col-xs-6"><a href="'+js_url.attr('checkout')+'" >checkout</a></div></div>';
+						_html += '</ul></div>';
+
+					}else{
+						_html = '<div class="col-xs-12 empty"></div><a href="'+js_url.attr('home')+'" class="go-shopping">Go Shopping</a>';
+
+					}
+                    $('#bag-content').html(_html);
+                }
+            });
+        }
+
+        $('body').on('click','#cart .numadd',function(){
+        	var qt = $(this).prev('.numqty').children('input[name=\'quantity\']');
+            var oldValue = qt.val();
+            oldValue++;
+            qt.val(oldValue);
+
+            var price = $(this).parent().parent().find('.price-new').html().substr(1);
+			var total = $('#cart-checkout').children('.total').html().substr(1);
+			var currency = $('#cart-checkout').children('.total').html().substr(0,1);
+			var new_total = currency + ((parseFloat(total)*100 + parseFloat(price)*100)/100).toFixed(2);
+            $('#cart-checkout').children('.total').html(new_total);
+
+            // TODO 购物车的加减,删除计算与对应的接口开发
+
+		});
+
+        $('body').on('click','#cart .numless',function(){
+            var qt = $(this).next('.numqty').children('input[name=\'quantity\']');
+            var oldValue = qt.val();
+            oldValue--;
+            if(oldValue<1){
+                oldValue = 1;
+            }else{
+                var price = $(this).parent().parent().find('.price-new').html().substr(1);
+                var total = $('#cart-checkout').children('.total').html().substr(1);
+                var currency = $('#cart-checkout').children('.total').html().substr(0,1);
+                var new_total = currency + ((parseFloat(total)*100 - parseFloat(price)*100)/100).toFixed(2);
+                $('#cart-checkout').children('.total').html(new_total);
+
+
+			}
+            qt.val(oldValue);
+
+        });
+
+        $('body').on('click','#cart .del',function(){
+            var price = $(this).parent().find('.price-new').html().substr(1);
+            var total = $('#cart-checkout').children('.total').html().substr(1);
+            var currency = $('#cart-checkout').children('.total').html().substr(0,1);
+            var quantity = $(this).parent().find('.input-quantity').val();
+            var new_total = currency + ((parseFloat(total)*100 - parseFloat(price)*100*quantity)/100).toFixed(2);
+            $('#cart-checkout').children('.total').html(new_total);
+
+			$(this).parent().remove();
+			cart.remove($(this).attr('id'));
+
+            if(new_total.substr(1)==0.00){
+                var _html = '<div class="col-xs-12 empty"></div><a href="'+js_url.attr('home')+'" class="go-shopping">Go Shopping</a>';
+                $('#bag-content').html(_html);
+            }
+		});
+
+    });
+
+
 });
 
 function getURLVar(key) {

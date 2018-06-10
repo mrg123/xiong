@@ -25,7 +25,6 @@
 <link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-<link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/font/iconfont.css">
 
 
@@ -103,8 +102,8 @@
 	
   </nav>
   <nav id="shoppingbag">
-    <div>
-      <br />
-      <p>You have no items in your shopping bag.</p>
-    </div>
+    <div class="col-sm-12" id="bag-content">
+	</div>
   </nav>
+
+  <div class="hide" id="js_url" checkout="<?php echo $checkout ?>" home="<?php echo $home; ?>"></div>
