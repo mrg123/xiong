@@ -89,6 +89,26 @@
 		<operation>
 			<search position="before"><![CDATA[public function index()]]></search>
 			<add><![CDATA[
+
+	public function update() {
+		$this->load->language('checkout/cart');
+
+		$json = array();
+
+		// Update
+		if (!empty($this->request->post['quantity']) && !empty($this->request->post['key'])) {
+			$this->cart->update($this->request->post['key'], $this->request->post['quantity']);
+
+			unset($this->session->data['shipping_method']);
+			unset($this->session->data['shipping_methods']);
+			unset($this->session->data['payment_method']);
+			unset($this->session->data['payment_methods']);
+			unset($this->session->data['reward']);
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
 public function get_cart()
     {
         $this->load->language('api/cart');
