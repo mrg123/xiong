@@ -39,6 +39,10 @@
                   <?php if ($product['tax']) { ?>
                   <span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
                   <?php } ?>
+				  
+				  <span onclick="wishlist.add('<?php echo $product['product_id']; ?>');" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>" class="add-wishlist">
+				  <i class="fa fa-heart"></i>
+				  </span>
                 </p>
                 <?php } ?>
                 <a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>

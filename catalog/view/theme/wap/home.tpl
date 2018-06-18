@@ -18,7 +18,7 @@
       </div>
 	</div>
 	
-	<a href="#top" class="totop">
+	<a href="javascript:void(0)" class="totop">
 		<i class="icon iconfont icon-xiangshangjiantouquan"></i>
 	</a>
 	

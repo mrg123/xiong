@@ -2,7 +2,7 @@ $(function() {
     //	create the menus
 	var js_url = $('#js_url');
     $('#menu').mmenu({
-//navbar : false, // 隐藏头部的导航
+"navbar" : true, // 隐藏头部的导航
 		"slidingSubmenus": true,  // false 向下展开, true向右展开
 		"extensions": [
                   "fx-panels-zoom",		//向右展开带有缩收效果
@@ -34,9 +34,7 @@ $(function() {
 
     //	fire the plugin
     $('.mh-head.first').mhead({
-        scroll: {
-            hide: 200
-        }
+        scroll: true
     });
     $('.mh-head.second').mhead({
         scroll: true
@@ -225,7 +223,11 @@ $.each(json.products,function(k,v){
 
     });
 
-
+	$('.totop').click(function(){
+		$('html,body').animate({
+			scrollTop:'0px'
+		},500);
+	});
 });
 
 

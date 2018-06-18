@@ -70,17 +70,23 @@ padding: 10px;
 #get-lastest .new-price{
 	color:red;
 	font-weight:bold;
-	font-size:16px;
-	float:right;
+	font-size:18px;
+	float:left;
 }
 #get-lastest .old-price{
 	text-decoration: line-through;	
-	font-size:16px;
-	float:right;
-	margin-right: 5px;
+	font-size:14px;
+	float:left;
+	margin-left: 5px;
 }
 #get-lastest .product-name{
 	font-size:16px;
+	display:inline-block;
+	clear:left;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow: hidden;
+	width:100%;
 }
 #get-lastest .product .info{
 	padding:0 15px;
