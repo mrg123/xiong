@@ -89,6 +89,18 @@
 		<operation>
 			<search position="before"><![CDATA[public function index()]]></search>
 			<add><![CDATA[
+			
+			public function getCount(){
+		$count['total']=0;
+		
+		if($this->cart->hasProducts()){
+		$count['total'] = $this->cart->countProducts();
+		}
+		
+		
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($count));
+			}		
 
 	public function update() {
 		$this->load->language('checkout/cart');

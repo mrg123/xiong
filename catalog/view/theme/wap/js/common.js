@@ -2,7 +2,7 @@ $(function() {
     //	create the menus
 	var js_url = $('#js_url');
     $('#menu').mmenu({
-"navbar" : true, // 隐藏头部的导航
+// "navbar" : true, // 隐藏头部的导航
 		"slidingSubmenus": true,  // false 向下展开, true向右展开
 		"extensions": [
                   "fx-panels-zoom",		//向右展开带有缩收效果
@@ -74,7 +74,7 @@ $.each(json.products,function(k,v){
     _html += '<span class="price-new">'+v.price+'</span>';
     _html += '</div><div class="info"><span class="numless"> </span><span class="numqty"><input name="quantity" value="'+v.quantity+'" size="2" class="input-quantity" type="text" readonly ></span><span class="numadd"> </span></div></li>';
 });
-						_html += '<div class="col-xs-12" id="cart-checkout"><div class="col-xs-6 total">'+json.total+'</div><div class="col-xs-6"><a href="'+js_url.attr('checkout')+'" >checkout</a></div></div>';
+						_html += '<div class="col-xs-12" id="cart-checkout"><div class="col-xs-7">Total: <span class="total">'+json.total+'</span></div><div class="col-xs-5"><a href="'+js_url.attr('checkout')+'" >checkout</a></div></div>';
 						_html += '</ul></div>';
 
 					}else{
@@ -94,10 +94,10 @@ $.each(json.products,function(k,v){
             qt.val(quantity);
 
             var price = $(this).parent().parent().find('.price-new').html().substr(1);
-			var total = $('#cart-checkout').children('.total').html().substr(1);
-			var currency = $('#cart-checkout').children('.total').html().substr(0,1);
+			var total = $('#cart-checkout').find('.total').html().substr(1);
+			var currency = $('#cart-checkout').find('.total').html().substr(0,1);
 			var new_total = currency + ((parseFloat(total)*100 + parseFloat(price)*100)/100).toFixed(2);
-            // $('#cart-checkout').children('.total').html(new_total);
+            // $('#cart-checkout').find('.total').html(new_total);
 
             var product_id = $(this).parent().parent().find('.del').attr('product-id');
 
@@ -110,7 +110,7 @@ $.each(json.products,function(k,v){
                     beforeSend: function () {
                         validate = false;
 						$('.cart-bg').show();
-                        $('#cart-checkout').children('.total').html('Loading');
+                        $('#cart-checkout').find('.total').html('Loading');
                     },
                     complete: function () {
                         validate = true;
@@ -126,7 +126,7 @@ $.each(json.products,function(k,v){
                         if (json['success']) {
                             // Need to set timeout otherwise it wont update the total
                             setTimeout(function () {
-                                $('#cart-checkout').children('.total').html(new_total);
+                                $('#cart-checkout').find('.total').html(new_total);
                             }, 100);
                         }
                     },
@@ -135,7 +135,7 @@ $.each(json.products,function(k,v){
                     }
                 });
             }
-
+getTotal();
 		});
 
         $('body').on('click','#cart .numless',function(){
@@ -146,10 +146,10 @@ $.each(json.products,function(k,v){
                 oldValue = 1;
             }else{
                 var price = $(this).parent().parent().find('.price-new').html().substr(1);
-                var total = $('#cart-checkout').children('.total').html().substr(1);
-                var currency = $('#cart-checkout').children('.total').html().substr(0,1);
+                var total = $('#cart-checkout').find('.total').html().substr(1);
+                var currency = $('#cart-checkout').find('.total').html().substr(0,1);
                 var new_total = currency + ((parseFloat(total)*100 - parseFloat(price)*100)/100).toFixed(2);
-                // $('#cart-checkout').children('.total').html(new_total);
+                // $('#cart-checkout').find('.total').html(new_total);
 
 
                 var cart_id = $(this).parent().parent().find('.del').attr('cart-id');
@@ -163,14 +163,14 @@ $.each(json.products,function(k,v){
                         beforeSend: function () {
                             validate = false;
                             $('.cart-bg').show();
-                            $('#cart-checkout').children('.total').html('Loading');
+                            $('#cart-checkout').find('.total').html('Loading');
                         },
                         complete: function () {
                             validate = true;
                             $('.cart-bg').hide();
                         },
                         success: function (json) {
-                           $('#cart-checkout').children('.total').html(new_total);
+                           $('#cart-checkout').find('.total').html(new_total);
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -180,16 +180,16 @@ $.each(json.products,function(k,v){
 
 			}
             qt.val(oldValue);
-
+getTotal();
         });
 
         $('body').on('click','#cart .del',function(){
             var price = $(this).parent().find('.price-new').html().substr(1);
-            var total = $('#cart-checkout').children('.total').html().substr(1);
-            var currency = $('#cart-checkout').children('.total').html().substr(0,1);
+            var total = $('#cart-checkout').find('.total').html().substr(1);
+            var currency = $('#cart-checkout').find('.total').html().substr(0,1);
             var quantity = $(this).parent().find('.input-quantity').val();
             var new_total = currency + ((parseFloat(total)*100 - parseFloat(price)*100*quantity)/100).toFixed(2);
-            $('#cart-checkout').children('.total').html(new_total);
+            $('#cart-checkout').find('.total').html(new_total);
 
 			$(this).parent().remove();
 
@@ -201,14 +201,14 @@ $.each(json.products,function(k,v){
                     beforeSend: function() {
                         validate = false;
                         $('.cart-bg').show();
-                        $('#cart-checkout').children('.total').html('Loading');
+                        $('#cart-checkout').find('.total').html('Loading');
                     },
                     complete: function() {
                         validate = true;
                         $('.cart-bg').hide();
                     },
                     success: function(json) {
-                        $('#cart-checkout').children('.total').html(new_total);
+                        $('#cart-checkout').find('.total').html(new_total);
                     },
                     error: function(xhr, ajaxOptions, thrownError) {
                         alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -219,6 +219,7 @@ $.each(json.products,function(k,v){
                 var _html = '<div class="col-xs-12 empty"></div><a href="'+js_url.attr('home')+'" class="go-shopping">Go Shopping</a>';
                 $('#bag-content').html(_html);
             }
+			getTotal();
 		});
 
     });
@@ -228,9 +229,16 @@ $.each(json.products,function(k,v){
 			scrollTop:'0px'
 		},500);
 	});
+	
+	getTotal();
 });
 
-
+		function getTotal(){
+			$.post('index.php?route=common/cart/getCount',function(json){
+			$('#count-cart').html(json['total']);		
+			});
+		}
+		
 
 function getURLVar(key) {
 	var value = [];

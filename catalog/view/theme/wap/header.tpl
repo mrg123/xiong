@@ -53,7 +53,7 @@
 				<span class="mh-btns-left">
 					<a class="fa fa-bars" href="#menu"></a>
 				</span>
-				<span class="mh-btns-left2"> <a href="<?php echo $wishlist; ?>"><i class="fa fa-heart"></i></a> </span>
+				<span class="mh-btns-left2 hide"> <a href="<?php echo $wishlist; ?>"><i class="fa fa-heart"></i></a> </span>
 				<span class="mh-btns-left3"> <?php echo $currency; ?> </span>
     <span class="mh-text">
 	
@@ -64,8 +64,10 @@
 	
 	</span>
     <span class="mh-btns-right">
-					<a class="fa fa-shopping-cart" href="#shoppingbag"></a>
-				</span>
+	<span id="count-cart" style="font-size: 12px;position: absolute;left: 42px;top:18px;text-align:center;font-weight:700"></span>
+		<a class="fa fa-shopping-cart" href="#shoppingbag"></a>
+					
+	</span>
   </div>
   <div class="mh-head second" id="search">
     <div class="mh-form">
@@ -83,7 +85,12 @@
 		<li><span><?php echo $category['name']; ?></span>
 			<ul>
 			<?php foreach ($category['children'] as $child) { ?>
+				<?php if($child['thumb']) { ?>
+			<li><a href="<?php echo $child['href']; ?>"><img src="<?php echo $child['thumb']; ?>" alt="<?php echo $child['name']; ?>" title="<?php echo $child['name']; ?>" /></a></li>
+				<?php }else{ ?>
 			<li><a href="<?php echo $child['href']; ?>"><?php echo $child['name']; ?></a></li>	
+				<?php } ?>
+			
 			<?php } ?>
 			</ul>
 		</li>
@@ -94,7 +101,7 @@
 	<?php } ?>
 	
 		
-		<div class="mmenu-footer">
+		<div class="mmenu-footer hide">
 			<i class="fa fa-phone"></i><?php echo $telephone; ?>
 		</div>
 	
@@ -107,3 +114,7 @@
   </nav>
 
   <div class="hide" id="js_url" checkout="<?php echo $checkout ?>" home="<?php echo $home; ?>"></div>
+  
+  	<a href="javascript:void(0)" class="totop">
+		<i class="icon iconfont icon-xiangshangjiantouquan"></i>
+	</a>

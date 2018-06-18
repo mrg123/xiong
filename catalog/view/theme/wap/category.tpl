@@ -3,7 +3,21 @@
   <div class="row">
     <div id="content" class="col-sm-12"><?php echo $content_top; ?>
       <h2><?php echo $heading_title; ?></h2>
-	<hr>
+	
+	<?php if ($categories) { ?>
+      <div class="row">
+            <?php foreach ($categories as $category) { ?>
+			<div class="col-xs-4">
+            <?php if($category['thumb']) { ?>
+			<a href="<?php echo $category['href']; ?>"><img src="<?php echo $category['thumb']; ?>" alt="<?php echo $category['name']; ?>" title="<?php echo $category['name']; ?>" /></a>
+				<?php }else{ ?>
+			<a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>	
+				<?php } ?>
+				</div>
+            <?php } ?>
+      </div>
+      <?php } ?>
+	  <hr>
       <?php if ($products) { ?>
       <div class="row">
         <div class="col-xs-2">

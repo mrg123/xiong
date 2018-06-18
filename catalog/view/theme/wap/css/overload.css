@@ -28,7 +28,7 @@ color:#333;
 .caption .add-wishlist{
 	float:right;
 	margin-right:20px;
-	
+display:none;
 }
 .product-layout{
 margin-bottom:20px;
@@ -67,6 +67,9 @@ color: #222;
 }
 .second {
 	top:40px !important; 
+}
+.modal-backdrop{
+display:none;
 }
 
 /* mm-menu */
@@ -132,6 +135,7 @@ font-weight:400;
 	line-height:40px;
 	left:50px;
 }
+
 /* end mm-menu */
 	
 /* currency */
@@ -180,7 +184,7 @@ color: rgba(0,0,0,.3);
 }
 .fa-shopping-cart::before{
 	content: "\e645"; 
-	/* content: "\e684"; 购物袋 */
+font-size:24px;
 }
 .fa-phone::before{
 	content: "\e627";
@@ -244,14 +248,14 @@ content: "\e77a";
 	line-height: 60px;
 	background: #cf0e0e;
 	color: #fff;
-	font-size: 24px;
+	font-size: 20px;
 	margin-top:20px;
 	padding: 0;
 }
-#cart-checkout .col-xs-6{
+#cart-checkout .col-xs-7{
 	padding:0;
 }
-#cart-checkout .col-xs-6:last-child{
+#cart-checkout .col-xs-5:last-child{
 	background-color:#020;
 }
 #cart-checkout a{
@@ -370,6 +374,9 @@ content: "\e77a";
 	float: right;
 	line-height: 48px;
 	font-weight: 700;
+}
+#button-cart{
+margin-top:10px;
 }
 
 .image-additional{width:78px;float: left;}

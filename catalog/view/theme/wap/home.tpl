@@ -18,9 +18,7 @@
       </div>
 	</div>
 	
-	<a href="javascript:void(0)" class="totop">
-		<i class="icon iconfont icon-xiangshangjiantouquan"></i>
-	</a>
+
 	
 <script type="text/javascript">
 $(function() {

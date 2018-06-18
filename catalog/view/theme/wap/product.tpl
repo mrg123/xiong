@@ -30,7 +30,7 @@
             <?php } ?>
           </ul>
           <?php } ?>
-            <h1 style="font-size:28px;clear:both;padding-top: 10px;"><?php echo $heading_title; ?></h1>
+            <h1 style="font-size:19px;clear:both;padding-top: 10px;"><?php echo $heading_title; ?></h1>
         </div>
         <?php if ($column_left || $column_right) { ?>
         <?php $class = 'col-sm-6'; ?>
@@ -368,7 +368,7 @@ $hide_pp = 1;
     <div class="product-thumb transition">
       <div class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
       <div class="caption">
-        <h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
+       
         <?php if ($product['price']) { ?>
         <p class="price">
           <?php if (!$product['special']) { ?>
@@ -381,6 +381,7 @@ $hide_pp = 1;
           <?php } ?>
         </p>
         <?php } ?>
+		<a href="<?php echo $product['href']; ?>" style="height:44px;white-space: normal"><?php echo $product['name']; ?></a>
       </div>
 
     </div>
@@ -627,6 +628,8 @@ $('#button-cart').on('click', function() {
             alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
 	});
+	
+	getTotal();
 });
 //--></script>
 <script type="text/javascript"><!--
