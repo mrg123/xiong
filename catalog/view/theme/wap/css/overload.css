@@ -37,6 +37,14 @@ text-align: center;
 
 color: #222;
 }
+.totop{
+	position:fixed;
+	right:50px;
+	bottom:50px;
+	width:50px;
+	height:50px;
+
+}
 
 /* mm-menu */
 .mh-head {

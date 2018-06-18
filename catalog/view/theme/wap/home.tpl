@@ -17,6 +17,11 @@
         </div>
       </div>
 	</div>
+	
+	<a href="#top" class="totop">
+		<i class="icon iconfont icon-xiangshangjiantouquan"></i>
+	</a>
+	
 <script type="text/javascript">
 $(function() {
 	// 加载新产品
