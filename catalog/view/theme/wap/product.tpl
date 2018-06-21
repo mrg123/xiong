@@ -52,12 +52,12 @@
           <ul class="list-unstyled">
             <?php if (!$special) { ?>
             <li>
-              <h2><?php echo $price; ?></h2>
+              <h2 style="color:#222;margin-top: 10px;"><?php echo $price; ?></h2>
             </li>
             <?php } else { ?>
             <li><span style="text-decoration: line-through;color:#222;"><?php echo $price; ?></span></li>
             <li>
-              <h2 style="color:#222;"><?php echo $special; ?><?php if($price_saved) { ?>&nbsp;<span style="color:red;font-size:14px;"><?php echo $price_saved; ?> Saved</span><?php } ?></h2>
+              <h2 style="color:#222;margin-top: 10px;"><?php echo $special; ?><?php if($price_saved) { ?>&nbsp;<span style="color:red;font-size:14px;"><?php echo $price_saved; ?> Saved</span><?php } ?></h2>
             </li>
             <?php } ?>
             <?php if ($tax) { ?>
