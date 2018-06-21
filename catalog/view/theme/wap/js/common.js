@@ -2,7 +2,7 @@ $(function() {
     //	create the menus
 	var js_url = $('#js_url');
     $('#menu').mmenu({
-// "navbar" : true, // 隐藏头部的导航
+"navbar" : false, // 隐藏头部的导航
 		"slidingSubmenus": true,  // false 向下展开, true向右展开
 		"extensions": [
                   "fx-panels-zoom",		//向右展开带有缩收效果
@@ -12,9 +12,8 @@ $(function() {
                   {
                      "position": "bottom",
                      "content": [
-                        "<a class='fa fa-envelope' href='/index.php?route=information/contact'></a>",
-                        "<a class='fa fa-twitter' href='#/'></a>",
-                        "<a class='fa fa-facebook' href='#/'></a>"
+                        "<a class='fa fa-envelope' href='/index.php?route=information/contact'></a>"
+                       
                      ]
                   }
 				  ] 

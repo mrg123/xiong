@@ -55,9 +55,9 @@
               <h2><?php echo $price; ?></h2>
             </li>
             <?php } else { ?>
-            <li><span style="text-decoration: line-through;"><?php echo $price; ?></span></li>
+            <li><span style="text-decoration: line-through;color:#222;"><?php echo $price; ?></span></li>
             <li>
-              <h2><?php echo $special; ?><?php if($price_saved) { ?>&nbsp;<span style="color:red;font-size:14px;"><?php echo $price_saved; ?> Saved</span><?php } ?></h2>
+              <h2 style="color:#222;"><?php echo $special; ?><?php if($price_saved) { ?>&nbsp;<span style="color:red;font-size:14px;"><?php echo $price_saved; ?> Saved</span><?php } ?></h2>
             </li>
             <?php } ?>
             <?php if ($tax) { ?>
@@ -82,7 +82,7 @@
           </ul>
           <?php } ?>
 
-<div class="pull-right product-currency" style="margin-top:-40px;padding-right:10px;"><?php echo $currency; ?></div>
+<div class="pull-left product-currency" style="margin-top:-30px;margin-left: 200px;"><?php echo $currency; ?></div>
           <div id="product">
             <?php if ($options) { ?>
             <hr>
@@ -752,18 +752,16 @@ $(document).ready(function() {
 });
 
     $(document).ready(function() {
-        var deg = 1;
+       
         $('.product-nav li').click(function(){
             var id = $(this).children('a').attr('href');
             var i = $(this).find('i');
             $(id).slideToggle('slow',function(){
-                deg++;
-                if(deg%2){
+                if($(id).is(':hidden')){
                     i.css('transform','rotate(0deg)');
                 }else{
                     i.css('transform','rotate(90deg)');
                 }
-
             });
         });
 

@@ -71,13 +71,19 @@
   </div>
   <div class="mh-head second" id="search">
     <div class="mh-form">
-      <input placeholder="search" name="search" value="" />
-      <a href="javascript:void(0)" class="fa fa-search"></a>
+      <input placeholder="Find Products" name="search" value="" style="padding-left:40px;"/>
+      <a href="javascript:void(0)" class="fa fa-search" style="left:0"></a>
     </div>
   </div>
 
   <nav id="menu">
     <ul>
+	<?php if ($logged) { ?>
+            <li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a></li>
+            <?php } else { ?>
+            <li>
+            <a href="<?php echo $login; ?>" class="line"><?php echo $text_register; ?> / <?php echo $text_login; ?></a></li>
+            <?php } ?>
 	<li><a href="<?php echo $home; ?>"><?php echo $text_home; ?></a></li>
 	<?php if($categories) { ?>
 	<?php foreach($categories as $category) { ?>
