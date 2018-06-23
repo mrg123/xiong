@@ -82,7 +82,7 @@
           </ul>
           <?php } ?>
 
-<div class="pull-left product-currency" style="margin-top:-30px;margin-left: 200px;"><?php echo $currency; ?></div>
+<div class="pull-left product-currency" style="margin-top:-30px;margin-left: 230px;"><?php echo $currency; ?></div>
           <div id="product">
             <?php if ($options) { ?>
             <hr>
