@@ -57,7 +57,7 @@
             <?php } else { ?>
             <li><span style="text-decoration: line-through;color:#222;"><?php echo $price; ?></span></li>
             <li>
-              <h2 style="color:#222;margin-top: 10px;"><?php echo $special; ?><?php if($price_saved) { ?>&nbsp;<span style="color:red;font-size:14px;"><?php echo $price_saved; ?> Saved</span><?php } ?></h2>
+              <h2 style="color:#222;margin-top: 10px;font-size:19px;"><?php echo $special; ?><?php if($price_saved) { ?>&nbsp;<span style="color:red;font-size:14px;"><?php echo $price_saved; ?> Saved</span><?php } ?></h2>
             </li>
             <?php } ?>
             <?php if ($tax) { ?>
@@ -616,9 +616,9 @@ $('#button-cart').on('click', function() {
 					"left":(dbw-cbw)/2,
 					"margin-top":(-cbh/2)
 				});
-				// t = setTimeout('$(".cart-box").fadeOut(1000);',5000);
+				t = setTimeout('$(".cart-box").fadeOut(1000);',2000);
 				$(".cart-box-close").click(function(){
-					// clearTimeout(t);
+					clearTimeout(t);
 					$(".cart-box").hide();
 				});
 			
