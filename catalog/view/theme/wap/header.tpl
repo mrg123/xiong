@@ -15,7 +15,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/demo.css">
-<script type="text/javascript" src="catalog/view/theme/wap/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/wap/css/jquery.mmenu.all.css">
 <script type="text/javascript" src="catalog/view/theme/wap/js/jquery.mmenu.all.js"></script>
