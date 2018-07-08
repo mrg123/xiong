@@ -21,6 +21,7 @@
             <?php if ($thumb) { ?>
             <li><a class="thumbnail pop" href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>"><img class="zoom" src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" /></a></li>
             <li style="display: none;" class="image-additional"><a class="thumbnail" href="<?php echo $popup1; ?>" title="<?php echo $heading_title; ?>"> <img src="<?php echo $thumb1; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" /></a></li>
+			<li class="image-additional"><img id="gallery" val="<?php echo $popup1; ?>" name="<?php echo $big_thumb; ?>" src="<?php echo $thumb1; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" /></li>
             <?php } ?>
             <?php if ($images) { ?>
             <?php foreach ($images as $image) { ?>
