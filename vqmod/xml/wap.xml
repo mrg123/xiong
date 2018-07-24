@@ -792,6 +792,21 @@ public function down(){
 		</operation>
 	</file>
 	
+	<file name="catalog/controller/module/d_quickcheckout.php">
+		<operation>
+			<search position="replace"><![CDATA[$this->document->addScript('catalog/view/javascript/d_quickcheckout/compress/d_quickcheckout.min.js');]]></search>
+			<add><![CDATA[
+			
+			if(IS_MOBILE){
+			$this->document->addScript('catalog/view/javascript/d_quickcheckout/compress/d_quickcheckout2.js');
+			}else{
+			$this->document->addScript('catalog/view/javascript/d_quickcheckout/compress/d_quickcheckout.min.js');
+			}
+			
+			]]></add>
+		</operation>
+	</file>
+	
 	
 
 </modification>
