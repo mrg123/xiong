@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+Sitemap: http://example.com/sitemap_location.xml  替换成网站地图

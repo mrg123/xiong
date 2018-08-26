@@ -1,9 +1,9 @@
 <?php
 // HTTP
-define('HTTP_SERVER', '');
+define('HTTP_SERVER', 'http://xiong.localweb.com/');
 
 // HTTPS
-define('HTTPS_SERVER', '');
+define('HTTPS_SERVER', 'https://xiong.localweb.com/');
 
 // DIR
 define('DIR_APPLICATION', 'D:/git/case/xiong/catalog/');

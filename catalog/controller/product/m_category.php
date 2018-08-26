@@ -291,9 +291,8 @@ class ControllerProductMCategory extends Controller {
 			
 		}
 			
-		require_once("catalog/controller/product/Mobile_Detect.php");
-		$detect = new Mobile_Detect;
-		if(!$detect->isMobile()){
+		
+		if(!IS_MOBILE){
 			$this->response->redirect($this->url->link('product/category', 'path=' . $this->request->get['path'], 'SSL'));
 		}
 		

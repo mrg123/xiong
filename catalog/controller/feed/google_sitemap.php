@@ -9,11 +9,21 @@ class ControllerFeedGoogleSitemap extends Controller {
 			$this->load->model('tool/image');
 
 			$products = $this->model_catalog_product->getProducts();
-
+			
+			/* 查看是否启用仿品的功能,在地址后面添加相应参数,让谷歌正常收录 */
+			if($this->config->get('product_toggle_status') && $this->config->get('product_toggle_parameter')!=''){
+				$open = 1;
+			}else{
+				$open = 0;
+			}
 			foreach ($products as $product) {
 				if ($product['image']) {
 					$output .= '<url>';
-					$output .= '<loc>' . $this->url->link('product/product', 'product_id=' . $product['product_id']) . '</loc>';
+					if($open){
+					$output .= '<loc>' . $this->url->link('product/product', 'product_id=' . $product['product_id'] . '&' . $this->config->get('product_toggle_parameter') . '=1') . '</loc>';
+					}else{
+					$output .= '<loc>' . $this->url->link('product/product', 'product_id=' . $product['product_id']) . '</loc>';	
+					}
 					$output .= '<changefreq>weekly</changefreq>';
 					$output .= '<priority>1.0</priority>';
 					$output .= '<image:image>';
@@ -89,10 +99,21 @@ class ControllerFeedGoogleSitemap extends Controller {
 			$output .= '</url>';
 
 			$products = $this->model_catalog_product->getProducts(array('filter_category_id' => $result['category_id']));
+			
+			/* 查看是否启用仿品的功能,在地址后面添加相应参数,让谷歌正常收录 */
+			if($this->config->get('product_toggle_status') && $this->config->get('product_toggle_parameter')!=''){
+				$open = 1;
+			}else{
+				$open = 0;
+			}
 
 			foreach ($products as $product) {
 				$output .= '<url>';
-				$output .= '<loc>' . $this->url->link('product/product', 'path=' . $new_path . '&product_id=' . $product['product_id']) . '</loc>';
+				if($open){
+				$output .= '<loc>' . $this->url->link('product/product', 'path=' . $new_path . '&product_id=' . $product['product_id'] . '&' . $this->config->get('product_toggle_parameter') . '=1') . '</loc>';
+				}else{
+				$output .= '<loc>' . $this->url->link('product/product', 'path=' . $new_path . '&product_id=' . $product['product_id']) . '</loc>';	
+				}
 				$output .= '<changefreq>weekly</changefreq>';
 				$output .= '<priority>1.0</priority>';
 				$output .= '</url>';
